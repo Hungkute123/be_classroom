@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import config from 'config';
 
-// const URL = config.get('db');
-const URL: any = process.env.DB_HOST;
+
+const URL: any = process.env.DB_HOST || config.get('db_host');
 
 export const connectDB = async function () {
 	await mongoose.connect(URL, {

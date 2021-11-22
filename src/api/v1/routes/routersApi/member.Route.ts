@@ -1,25 +1,21 @@
-import { Router, Request, Response } from 'express';
-const classRouter = Router();
+import { Router, Request, Response } from "express";
+const memberRouter = Router();
 
 // Middleware
 
 // Controller
-import { classController } from '../../controllers/class.Controller';
-
+import { memberController } from "../../controllers/member.Controller";
 
 //-------------------------------------------- api/products/... -------------------------------
 
 //--------------------------------------------GET------------------------------------------
-classRouter.get('/', classController.getClassByIDUser);
-classRouter.get('/codeclass', classController.getClassByCodeClass);
-
-
+memberRouter.get("/teacher", memberController.getTeacherByCodeClass);
+memberRouter.get("/student", memberController.getStudentByCodeClass);
 
 //--------------------------------------------POST-----------------------------------------
-classRouter.post('/',classController.createClass);
 
 //--------------------------------------------PUT------------------------------------------
 
 //--------------------------------------------DELETE----------------------------------------
 
-export = classRouter;
+export = memberRouter;
