@@ -1,4 +1,4 @@
-import  {ClassModel}  from '../models/class.Model/class.Model';
+import { ClassModel } from "../models/class.Model/class.Model";
 
 class ClassServices {
 	getClassByIDUser = async (IDUser: number) => {
@@ -80,5 +80,6 @@ class ClassServices {
 			throw new Error(error.messages);
 		}
 	};
+
 }
-export const classServices = new ClassServices()
+export const classServices = new ClassServices();
