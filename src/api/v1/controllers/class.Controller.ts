@@ -30,7 +30,7 @@ class ClassController {
       const Image: string =
         "https://www.gstatic.com/classroom/themes/img_backtoschool.jpg";
       const Room: number = req.body.Room || 0;
-      
+
       const { data, message, status } = await classServices.createClass(
         IDUser,
         CodeClass,
