@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+
 interface Class {
     IDUser: number,
     CodeClass: string,
