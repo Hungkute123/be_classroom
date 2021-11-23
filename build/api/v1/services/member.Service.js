@@ -36,30 +36,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.classServices = void 0;
-var class_Model_1 = require("../models/class.Model/class.Model");
-var ClassServices = /** @class */ (function () {
-    function ClassServices() {
+exports.memberServices = void 0;
+var member_Model_1 = require("../models/member.Model/member.Model");
+var MemberServices = /** @class */ (function () {
+    function MemberServices() {
         var _this = this;
-        this.getClassByListCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_1;
+        this.addMember = function (IDUser, CodeClass, Permission, Status) { return __awaiter(_this, void 0, void 0, function () {
+            var addMember, saveMember, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.find({ CodeClass: { $in: CodeClass } })];
+                        addMember = new member_Model_1.MemberModel({
+                            IDUser: IDUser,
+                            CodeClass: CodeClass,
+                            Permission: Permission,
+                            Status: Status
+                        });
+                        return [4 /*yield*/, addMember.save()];
                     case 1:
-                        classes = _a.sent();
-                        if (classes.length === 0) {
-                            return [2 /*return*/, {
-                                    data: null,
-                                    message: 'can not find class',
-                                    status: 400,
-                                }];
-                        }
+                        saveMember = _a.sent();
                         return [2 /*return*/, {
-                                data: classes,
-                                message: 'Success',
+                                data: saveMember,
+                                message: 'Add member susscess',
                                 status: 200,
                             }];
                     case 2:
@@ -69,27 +68,25 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.createClass = function (IDUser, CodeClass, Title, Theme, Part, Image, Room) { return __awaiter(_this, void 0, void 0, function () {
-            var createClass, saveClass, error_2;
+        this.getTeacherByCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
+            var members, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        createClass = new class_Model_1.ClassModel({
-                            IDUser: IDUser,
-                            CodeClass: CodeClass,
-                            Title: Title,
-                            Theme: Theme,
-                            Part: Part,
-                            Image: Image,
-                            Room: Room,
-                        });
-                        return [4 /*yield*/, createClass.save()];
+                        return [4 /*yield*/, member_Model_1.MemberModel.find({ CodeClass: CodeClass, Permission: 'Teacher' })];
                     case 1:
-                        saveClass = _a.sent();
+                        members = _a.sent();
+                        if (members === null) {
+                            return [2 /*return*/, {
+                                    dataTeacher: members,
+                                    message: 'can not find teacher',
+                                    status: 400,
+                                }];
+                        }
                         return [2 /*return*/, {
-                                data: saveClass,
-                                message: 'Create Class Success',
+                                dataTeacher: members,
+                                message: 'Success',
                                 status: 200,
                             }];
                     case 2:
@@ -99,24 +96,24 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.getsingleCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_3;
+        this.getStudentByCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
+            var members, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.find({ CodeClass: CodeClass })];
+                        return [4 /*yield*/, member_Model_1.MemberModel.find({ CodeClass: CodeClass, Permission: 'Student' })];
                     case 1:
-                        classes = _a.sent();
-                        if (classes.length === 0) {
+                        members = _a.sent();
+                        if (members === null) {
                             return [2 /*return*/, {
-                                    data: null,
-                                    message: 'can not find class with codeclass',
+                                    dataStudent: members,
+                                    message: 'can not find student',
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
-                                data: classes,
+                                dataStudent: members,
                                 message: 'Success',
                                 status: 200,
                             }];
@@ -127,24 +124,24 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.getClassByCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_4;
+        this.checkMemberValidClassroom = function (IDUser, CodeClass) { return __awaiter(_this, void 0, void 0, function () {
+            var members, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.findOne({ CodeClass: CodeClass })];
+                        return [4 /*yield*/, member_Model_1.MemberModel.findOne({ IDUser: IDUser, CodeClass: CodeClass })];
                     case 1:
-                        classes = _a.sent();
-                        if (classes === null) {
+                        members = _a.sent();
+                        if (members === null) {
                             return [2 /*return*/, {
                                     data: null,
-                                    message: 'can not find class',
+                                    message: 'can not find student',
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
-                                data: classes,
+                                data: members,
                                 message: 'Success',
                                 status: 200,
                             }];
@@ -155,7 +152,35 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
+        this.getClassByIDUser = function (IDUser) { return __awaiter(_this, void 0, void 0, function () {
+            var members, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, member_Model_1.MemberModel.find({ IDUser: IDUser })];
+                    case 1:
+                        members = _a.sent();
+                        if (members === null) {
+                            return [2 /*return*/, {
+                                    dataUser: members,
+                                    message: 'can not find teacher',
+                                    status: 400,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                dataUser: members,
+                                message: 'Success',
+                                status: 200,
+                            }];
+                    case 2:
+                        error_5 = _a.sent();
+                        throw new Error(error_5.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
     }
-    return ClassServices;
+    return MemberServices;
 }());
-exports.classServices = new ClassServices();
+exports.memberServices = new MemberServices();
