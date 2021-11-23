@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClassModel = void 0;
-const mongoose_1 = require("mongoose");
-const ClassSchema = new mongoose_1.Schema({
-    IDUser: { type: Number, require: true },
+var mongoose_1 = require("mongoose");
+var ClassSchema = new mongoose_1.Schema({
+    IDUser: { type: String, require: true },
     CodeClass: { type: String, require: true },
-    Title: String,
+    Title: { type: String, require: true },
     Theme: String,
     Part: String,
     Image: { type: String, require: true },
-    Room: Number,
+    Room: String,
 });
 exports.ClassModel = mongoose_1.model('class', ClassSchema);

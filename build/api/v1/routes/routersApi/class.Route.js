@@ -1,12 +1,15 @@
 "use strict";
-const express_1 = require("express");
-const classRouter = express_1.Router();
+var express_1 = require("express");
+var classRouter = express_1.Router();
 // Middleware
 // Controller
-const class_Controller_1 = require("../../controllers/class.Controller");
+var class_Controller_1 = require("../../controllers/class.Controller");
+var authenToken_Middleware_1 = require("../../middlewares/authenToken.Middleware");
 //-------------------------------------------- api/products/... -------------------------------
 //--------------------------------------------GET------------------------------------------
-classRouter.get('/', class_Controller_1.classController.getClassByIDUser);
+classRouter.get('/', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.getClassByIDUser);
+classRouter.get('/codeclass', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.getClassByCodeClass);
+classRouter.get('/invite', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.inviteClassroom);
 //--------------------------------------------POST-----------------------------------------
-classRouter.post('/', class_Controller_1.classController.createClass);
+classRouter.post('/', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.createClass);
 module.exports = classRouter;
