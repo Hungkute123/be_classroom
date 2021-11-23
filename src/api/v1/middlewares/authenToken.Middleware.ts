@@ -18,13 +18,14 @@ export function authenTokenMiddleware(
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET as string,
-      (err, data) => {
+      (err: any, data: any) => {
         if (err) {
           res.status(200).json({ data: false, message: "JWT wrong" });
           return;
         }
 
-        res.locals.data = data;
+        res.locals.email = data._doc.Email;
+        console.log(res.locals.email);
         next();
       }
     );

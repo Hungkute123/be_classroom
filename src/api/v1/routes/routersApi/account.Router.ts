@@ -14,7 +14,13 @@ accountRouter.get('/get-info', authenTokenMiddleware, accountController.getInfo)
 
 //--------------------------------------------POST-----------------------------------------
 accountRouter.post("/login", accountController.login);
+accountRouter.post('/login-google', accountController.loginWithGoogle);
 accountRouter.post("/register", accountController.register);
+
+//--------------------------------------------PATCH------------------------------------------
+accountRouter.patch("/update-account", accountController.updateAccount);
+accountRouter.patch("/update-account-pass", accountController.updatePass);
+accountRouter.patch("/update-account-mssv", accountController.updateMSSV);
 
 //--------------------------------------------PUT------------------------------------------
 
