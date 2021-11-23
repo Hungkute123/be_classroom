@@ -61,9 +61,10 @@ class ClassController {
     );
     if (data !== null) {
       await memberServices.addMember(IDUser, CodeClass, "Teacher", true);
-      const { data, message, status } =
-      await classServices.getClassByCodeClass(CodeClass);
-    res.status(status).send({ data, message });
+      const { data, message, status } = await classServices.getClassByCodeClass(
+        CodeClass
+      );
+      res.status(status).send({ data, message });
     }
     res.status(status).send({ data, message });
   };

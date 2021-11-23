@@ -10,13 +10,15 @@ export function authenTokenMiddleware(
   res: Response,
   next: NextFunction
 ): void {
-  try { 
+  try {
     let token: string;
     token = req.query.jwt || req.body.jwt;
-    console.log("hehe", token)
-    if (!token || typeof token == undefined) {res.status(401).json({ data: false, message: "JWT wrong" });
-    return;}
-    console.log("huhu")
+
+    if (!token || typeof token == undefined) {
+      res.status(200).json({ data: false, message: "JWT wrong" });
+      return;
+    }
+
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET as string,
@@ -26,8 +28,8 @@ export function authenTokenMiddleware(
           return;
         }
 
+        res.locals.data = data;
         res.locals.email = data._doc.Email;
-        console.log(res.locals.email);
         next();
       }
     );

@@ -30,7 +30,10 @@ class AccountController {
         const ret = bcrypt.compareSync(pass, password);
 
         if (ret) {
-          const data = await accountServices.getAccount({ Email: email });
+          const data = await accountServices.getAccount(
+            { Email: email },
+            { Password: 0, __v: 0 }
+          );
           const accessToken = jwt.sign(
             { ...data },
             process.env.ACCESS_TOKEN_SECRET as string,
@@ -82,7 +85,10 @@ class AccountController {
               account,
               email
             );
-            const user = await accountServices.getAccount({ Email: email });
+            const user = await accountServices.getAccount(
+              { Email: email },
+              { Password: 0, __v: 0 }
+            );
             const accessToken = jwt.sign(
               { ...user },
               process.env.ACCESS_TOKEN_SECRET as string,
@@ -138,10 +144,13 @@ class AccountController {
 
   getInfo = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const data = await accountServices.getAccount({
-        Email: res.locals.email,
-      });
-      
+      const data = await accountServices.getAccount(
+        {
+          Email: res.locals.email,
+        },
+        { Password: 0, __v: 0 }
+      );
+
       res.status(200).json({ data });
     }
   );
