@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setViewEngine = void 0;
-const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
-const setViewEngine = (app) => {
+var express_1 = __importDefault(require("express"));
+var path_1 = __importDefault(require("path"));
+var setViewEngine = function (app) {
     app.set('view engine', 'ejs');
     app.set('views', path_1.default.join(__dirname, '../api/v1/views'));
     app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));

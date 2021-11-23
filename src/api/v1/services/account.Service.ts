@@ -15,7 +15,7 @@ class AccountServices {
     try {
       const account = await AccountModel.findOne(
         { Email: email },
-        { _id: 0, __v: 0, Password: 0 }
+        { __v: 0, Password: 0 }
       );
 
       return account;
@@ -86,7 +86,32 @@ class AccountServices {
 
       return {
         data: false,
-        message: "Account does not exist",
+        message: "Update failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+
+  getInfoByListID = async (listID: any) => {
+    try {
+      const info = await AccountModel.find(
+        { _id: { $in: listID } },
+        { Password: 0, __v: 0 }
+      );
+
+      if (info.length === 0) {
+        return {
+          data: null,
+          message: "Not available",
+          status: 400,
+        };
+      }
+
+      return {
+        data: info,
+        message: "Success",
         status: 200,
       };
     } catch (error: any) {
