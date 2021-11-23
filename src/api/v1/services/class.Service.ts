@@ -1,9 +1,9 @@
 import { ClassModel } from "../models/class.Model/class.Model";
-
+import  {MemberModel}  from '../models/member.Model/member.Model';
 class ClassServices {
-	getClassByIDUser = async (IDUser: number) => {
+	getClassByListCodeClass = async (CodeClass: any) => {
 		try {
-			const classes = await ClassModel.find();
+			const classes = await ClassModel.find({CodeClass: {$in: CodeClass}});
 			if (classes.length === 0) {
 				return {
 					data: null,
@@ -20,7 +20,7 @@ class ClassServices {
 			throw new Error(error.messages);
 		}
 	};
-	createClass = async (IDUser: number, CodeClass: string, Title: string, Theme: string, Part: string, Image: string, Room: string ) => {
+	createClass = async (IDUser: string, CodeClass: string, Title: string, Theme: string, Part: string, Image: string, Room: string ) => {
 		try {
 			const createClass = new ClassModel({
                 IDUser: IDUser,

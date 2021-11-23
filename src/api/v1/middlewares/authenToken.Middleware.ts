@@ -10,11 +10,13 @@ export function authenTokenMiddleware(
   res: Response,
   next: NextFunction
 ): void {
-  try {
-    const token = String(req.query.jwt);
-
-    if (!token) res.sendStatus(401);
-
+  try { 
+    let token: string;
+    token = req.query.jwt || req.body.jwt;
+    console.log("hehe", token)
+    if (!token || typeof token == undefined) {res.status(401).json({ data: false, message: "JWT wrong" });
+    return;}
+    console.log("huhu")
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET as string,

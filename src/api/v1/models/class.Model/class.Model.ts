@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 interface Class {
-    IDUser: number,
+    IDUser: string,
     CodeClass: string,
     Title: string,
     Theme?: string,
@@ -10,7 +10,7 @@ interface Class {
     Room?: String,
 }
 const ClassSchema =  new Schema<Class>({
-    IDUser: {type: Number, require: true},
+    IDUser: {type: String, require: true},
     CodeClass: {type: String, require: true},
     Title: {type: String, require: true},
     Theme: String,

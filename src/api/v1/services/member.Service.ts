@@ -2,7 +2,7 @@ import  {MemberModel}  from '../models/member.Model/member.Model';
 
 class MemberServices {
 	
-	addMember = async (IDUser: number, CodeClass: string, Permission: string, Status: boolean ) => {
+	addMember = async (IDUser: string, CodeClass: string, Permission: string, Status: boolean ) => {
 		try {
 			const addMember = new MemberModel({
                 IDUser: IDUser,
@@ -26,13 +26,13 @@ class MemberServices {
 			const members = await MemberModel.find({CodeClass: CodeClass, Permission: 'Teacher'});
 			if (members === null) {
 				return {
-					data: null,
+					dataTeacher: members,
 					message: 'can not find teacher',
 					status: 400,
 				};
 			}
 			return {
-				data: members,
+				dataTeacher: members,
 				message: 'Success',
 				status: 200,
 			};
@@ -45,6 +45,25 @@ class MemberServices {
 			const members = await MemberModel.find({CodeClass: CodeClass, Permission: 'Student'});
 			if (members === null) {
 				return {
+					dataStudent: members,
+					message: 'can not find student',
+					status: 400,
+				};
+			}
+			return {
+				dataStudent: members,
+				message: 'Success',
+				status: 200,
+			};
+		} catch (error: any) {
+			throw new Error(error.messages);
+		}
+	};
+	checkMemberValidClassroom = async (IDUser: string, CodeClass: string) =>{
+		try {
+			const members = await MemberModel.findOne({IDUser: IDUser, CodeClass: CodeClass});
+			if (members === null) {
+				return {
 					data: null,
 					message: 'can not find student',
 					status: 400,
@@ -52,6 +71,25 @@ class MemberServices {
 			}
 			return {
 				data: members,
+				message: 'Success',
+				status: 200,
+			};
+		} catch (error: any) {
+			throw new Error(error.messages);
+		}
+	}
+	getClassByIDUser = async (IDUser: string) => {
+		try {
+			const members = await MemberModel.find({IDUser : IDUser});
+			if (members === null) {
+				return {
+					dataUser: members,
+					message: 'can not find teacher',
+					status: 400,
+				};
+			}
+			return {
+				dataUser: members,
 				message: 'Success',
 				status: 200,
 			};

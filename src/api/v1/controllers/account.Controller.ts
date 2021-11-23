@@ -36,7 +36,7 @@ class AccountController {
             { ...data },
             process.env.ACCESS_TOKEN_SECRET as string,
             {
-              expiresIn: "300s",
+              expiresIn: "30000s",
             }
           );
 
