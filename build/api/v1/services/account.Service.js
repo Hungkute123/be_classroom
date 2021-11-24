@@ -52,8 +52,28 @@ var models_1 = require("../models");
 var AccountServices = /** @class */ (function () {
     function AccountServices() {
         var _this = this;
+        this.getAccount = function (key, criteria) {
+            if (criteria === void 0) { criteria = { _id: 0, __v: 0 }; }
+            return __awaiter(_this, void 0, void 0, function () {
+                var account, error_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, models_1.AccountModel.findOne(__assign({}, key), __assign({}, criteria))];
+                        case 1:
+                            account = _a.sent();
+                            return [2 /*return*/, account];
+                        case 2:
+                            error_1 = _a.sent();
+                            throw new Error(error_1.messages);
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            });
+        };
         this.getAccountByEmail = function (email) { return __awaiter(_this, void 0, void 0, function () {
-            var account, error_1;
+            var account, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -63,14 +83,14 @@ var AccountServices = /** @class */ (function () {
                         account = _a.sent();
                         return [2 /*return*/, account];
                     case 2:
-                        error_1 = _a.sent();
-                        throw new Error(error_1.messages);
+                        error_2 = _a.sent();
+                        throw new Error(error_2.messages);
                     case 3: return [2 /*return*/];
                 }
             });
         }); };
         this.getPasswordByEmail = function (email) { return __awaiter(_this, void 0, void 0, function () {
-            var password, error_2;
+            var password, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -78,16 +98,19 @@ var AccountServices = /** @class */ (function () {
                         return [4 /*yield*/, models_1.AccountModel.findOne({ Email: email }, { Password: 1, _id: 0 })];
                     case 1:
                         password = _a.sent();
-                        return [2 /*return*/, password];
+                        if (password) {
+                            return [2 /*return*/, password.Password];
+                        }
+                        return [2 /*return*/, ""];
                     case 2:
-                        error_2 = _a.sent();
-                        throw new Error(error_2.messages);
+                        error_3 = _a.sent();
+                        throw new Error(error_3.messages);
                     case 3: return [2 /*return*/];
                 }
             });
         }); };
         this.register = function (account, email) { return __awaiter(_this, void 0, void 0, function () {
-            var isAccount, createAccount, saveAccount, error_3;
+            var isAccount, createAccount, saveAccount, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -112,14 +135,42 @@ var AccountServices = /** @class */ (function () {
                                 status: 200,
                             }];
                     case 3:
-                        error_3 = _a.sent();
-                        throw new Error(error_3.messages);
+                        error_4 = _a.sent();
+                        throw new Error(error_4.messages);
                     case 4: return [2 /*return*/];
                 }
             });
         }); };
+        this.updateAccount = function (account, key) { return __awaiter(_this, void 0, void 0, function () {
+            var update, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, models_1.AccountModel.findOneAndUpdate(__assign({}, key), { $set: __assign({}, account) })];
+                    case 1:
+                        update = _a.sent();
+                        if (update) {
+                            return [2 /*return*/, {
+                                    data: true,
+                                    message: "Account update successfully",
+                                    status: 200,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                data: false,
+                                message: "Update failed",
+                                status: 200,
+                            }];
+                    case 2:
+                        error_5 = _a.sent();
+                        throw new Error(error_5.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
         this.getInfoByListID = function (listID) { return __awaiter(_this, void 0, void 0, function () {
-            var info, error_4;
+            var info, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -140,8 +191,8 @@ var AccountServices = /** @class */ (function () {
                                 status: 200,
                             }];
                     case 2:
-                        error_4 = _a.sent();
-                        throw new Error(error_4.messages);
+                        error_6 = _a.sent();
+                        throw new Error(error_6.messages);
                     case 3: return [2 /*return*/];
                 }
             });

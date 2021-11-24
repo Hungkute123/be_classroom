@@ -12,18 +12,17 @@ function authenTokenMiddleware(req, res, next) {
     try {
         var token = void 0;
         token = req.query.jwt || req.body.jwt;
-        console.log("hehe", token);
         if (!token || typeof token == undefined) {
-            res.status(401).json({ data: false, message: "JWT wrong" });
+            res.status(200).json({ data: false, message: "JWT wrong" });
             return;
         }
-        console.log("huhu");
         jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, data) {
             if (err) {
                 res.status(200).json({ data: false, message: "JWT wrong" });
                 return;
             }
             res.locals.data = data;
+            res.locals.email = data._doc.Email;
             next();
         });
     }

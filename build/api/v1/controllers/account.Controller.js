@@ -53,6 +53,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.accountController = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
+var axios_1 = __importDefault(require("axios"));
 // dotenv
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -72,18 +73,17 @@ var AccountController = /** @class */ (function () {
                         body = req.body;
                         email = String(body.Email);
                         pass = String(body.Password);
-                        console.log(email, pass);
                         return [4 /*yield*/, account_Service_1.accountServices.getPasswordByEmail(email)];
                     case 1:
                         password = _a.sent();
                         if (!password) return [3 /*break*/, 3];
-                        ret = bcrypt_1.default.compareSync(pass, password.Password);
+                        ret = bcrypt_1.default.compareSync(pass, password);
                         if (!ret) return [3 /*break*/, 3];
-                        return [4 /*yield*/, account_Service_1.accountServices.getAccountByEmail(email)];
+                        return [4 /*yield*/, account_Service_1.accountServices.getAccount({ Email: email }, { Password: 0, __v: 0 })];
                     case 2:
                         data = _a.sent();
                         accessToken = jsonwebtoken_1.default.sign(__assign({}, data), process.env.ACCESS_TOKEN_SECRET, {
-                            expiresIn: "30000s",
+                            expiresIn: process.env.TIMERESET,
                         });
                         res.status(200).json({ data: accessToken, message: "Login success" });
                         return [2 /*return*/];
@@ -91,6 +91,63 @@ var AccountController = /** @class */ (function () {
                         res.status(200).json({ data: false, message: "Login failed" });
                         return [2 /*return*/];
                 }
+            });
+        }); });
+        this.loginWithGoogle = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, jwtGoogle;
+            var _this = this;
+            return __generator(this, function (_a) {
+                body = req.body;
+                jwtGoogle = String(body.jwt);
+                axios_1.default({
+                    method: "GET",
+                    url: "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + jwtGoogle,
+                })
+                    .then(function (response) { return __awaiter(_this, void 0, void 0, function () {
+                    var isEmail, email, pass, account, _a, data, message, status_1, user, accessToken;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                isEmail = response.data.email_verified;
+                                if (!isEmail) return [3 /*break*/, 3];
+                                email = response.data.email;
+                                pass = bcrypt_1.default.hashSync("123456", Number(process.env.ROUNDS));
+                                account = {
+                                    Email: email,
+                                    Name: response.data.name,
+                                    Image: response.data.picture,
+                                    Password: pass,
+                                    Phone: "",
+                                    MSSV: "",
+                                    Year: "",
+                                    Introduce: "",
+                                    Birth: "",
+                                    Gender: "",
+                                    Permission: 0,
+                                    CodeClass: "",
+                                    Status: false,
+                                };
+                                return [4 /*yield*/, account_Service_1.accountServices.register(account, email)];
+                            case 1:
+                                _a = _b.sent(), data = _a.data, message = _a.message, status_1 = _a.status;
+                                return [4 /*yield*/, account_Service_1.accountServices.getAccount({ Email: email }, { Password: 0, __v: 0 })];
+                            case 2:
+                                user = _b.sent();
+                                accessToken = jsonwebtoken_1.default.sign(__assign({}, user), process.env.ACCESS_TOKEN_SECRET, {
+                                    expiresIn: process.env.TIMERESET,
+                                });
+                                res
+                                    .status(200)
+                                    .json({ data: accessToken, message: "Login success" });
+                                _b.label = 3;
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                }); })
+                    .catch(function (error) {
+                    console.log(error);
+                });
+                return [2 /*return*/];
             });
         }); });
         this.register = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
@@ -116,8 +173,8 @@ var AccountController = /** @class */ (function () {
                             Permission: 0,
                             CodeClass: "",
                             Status: false,
+                            Image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhvWpQrh3nIxmjLBQSyH5uu7OKpprR2b4-g&usqp=CAU",
                         };
-                        console.log(account);
                         return [4 /*yield*/, account_Service_1.accountServices.register(account, email)];
                     case 1:
                         _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
@@ -126,9 +183,90 @@ var AccountController = /** @class */ (function () {
                 }
             });
         }); });
-        this.getInfo = function (req, res) {
-            res.status(200).json({ data: res.locals.data });
-        };
+        this.getInfo = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, account_Service_1.accountServices.getAccount({
+                            Email: res.locals.email,
+                        }, { Password: 0, __v: 0 })];
+                    case 1:
+                        data = _a.sent();
+                        res.status(200).json({ data: data });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.updateAccount = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, key, account, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        key = __assign({}, body.key);
+                        account = __assign({}, body.account);
+                        console.log(key, account);
+                        return [4 /*yield*/, account_Service_1.accountServices.updateAccount(account, key)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.updatePass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, email, password, passwordNew, passOld, ret, account, _a, data, message, status_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        email = body.Email;
+                        password = body.Password;
+                        passwordNew = body.PasswordNew;
+                        return [4 /*yield*/, account_Service_1.accountServices.getPasswordByEmail(email)];
+                    case 1:
+                        passOld = _b.sent();
+                        ret = bcrypt_1.default.compareSync(password, passOld);
+                        console.log(password, passOld);
+                        if (!ret) return [3 /*break*/, 3];
+                        account = {
+                            Email: email,
+                            Password: bcrypt_1.default.hashSync(passwordNew, Number(process.env.ROUNDS)),
+                        };
+                        return [4 /*yield*/, account_Service_1.accountServices.updateAccount(__assign({}, account), { Email: email })];
+                    case 2:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status_2 = _a.status;
+                        res.status(status_2).json({ data: data, message: message });
+                        return [2 /*return*/];
+                    case 3:
+                        res.status(200).json({ data: false, message: "Incorrect password" });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.updateMSSV = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, email, mssv, account, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        email = body.Email;
+                        mssv = body.MSSV;
+                        return [4 /*yield*/, account_Service_1.accountServices.getAccount({ MSSV: mssv }, { _id: 0, Password: 0 })];
+                    case 1:
+                        account = _b.sent();
+                        if (account) {
+                            res.status(200).json({ data: false, message: "MSSV already exists" });
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, account_Service_1.accountServices.updateAccount({ MSSV: mssv }, { Email: email })];
+                    case 2:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
     }
     return AccountController;
 }());

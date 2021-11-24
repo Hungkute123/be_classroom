@@ -15,5 +15,6 @@ var AccountSchema = new mongoose_1.Schema({
     Permission: Number,
     CodeClass: String,
     Status: Boolean,
+    Image: String,
 });
 exports.AccountModel = mongoose_1.model("users", AccountSchema);
