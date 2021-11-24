@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startMiddleware = void 0;
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const helmet_1 = __importDefault(require("helmet"));
-const hpp_1 = __importDefault(require("hpp"));
-const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-const morgan_1 = __importDefault(require("morgan"));
+var express_1 = __importDefault(require("express"));
+var cors_1 = __importDefault(require("cors"));
+var helmet_1 = __importDefault(require("helmet"));
+var hpp_1 = __importDefault(require("hpp"));
+var express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+var morgan_1 = __importDefault(require("morgan"));
 function startMiddleware(app) {
     // passportMiddleware(); // use passportjs
     app.use(morgan_1.default('combined')); // check api
