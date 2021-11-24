@@ -81,11 +81,23 @@ class AccountServices {
           data: true,
           message: "Account update successfully",
           status: 200,
+        };
+      }
+
+      return {
+        data: false,
+        message: "Update failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 
   getInfoByListID = async (listID: any) => {
     try {
       const info = await AccountModel.find(
-        { _id: {$in: listID }  },
+        { _id: { $in: listID } },
         { Password: 0, __v: 0 }
       );
 
