@@ -13,6 +13,7 @@ interface Account {
   Permission?: number;
   CodeClass?: string;
   Status?: boolean;
+  Image?: string;
 }
 
 const AccountSchema = new Schema<Account>({
@@ -28,6 +29,7 @@ const AccountSchema = new Schema<Account>({
   Permission: Number,
   CodeClass: String,
   Status: Boolean,
+  Image: String,
 });
 
 export const AccountModel = model<Account>("users", AccountSchema);
