@@ -25,15 +25,13 @@ class ClassStructureServices {
   saveClassStructure = async (
     CodeClass: string,
     MarkType: string,
-    Mark: number,
-    Position: number
+    Mark: number
   ) => {
     try {
       const createClassStructure = new ClassStructureModel({
         CodeClass: CodeClass,
         MarkType: MarkType,
         Mark: Mark,
-        Position: Position,
       });
       const saveClassStructure = await createClassStructure.save();
       return {
@@ -49,8 +47,7 @@ class ClassStructureServices {
     Id: string,
     CodeClass: string,
     MarkType: string,
-    Mark: number,
-    Position: number
+    Mark: number
   ) => {
     try {
       const classStructure = await ClassStructureModel.findOneAndUpdate(
@@ -60,7 +57,6 @@ class ClassStructureServices {
             CodeClass: CodeClass,
             MarkType: MarkType,
             Mark: Mark,
-            Position: Position,
           },
         }
       );
