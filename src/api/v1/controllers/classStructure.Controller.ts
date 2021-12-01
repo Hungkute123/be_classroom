@@ -13,9 +13,10 @@ import { classStructureServices } from "../services/classStructure.Service";
 class ClassStructureController {
   getClassStructureByCodeClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const CodeClass: string = String(req.body.CodeClass);
+      const CodeClass: string = String(req.query.CodeClass);
       const { data, message, status } =
         await classStructureServices.getClassStructureByCodeClass(CodeClass);
+
       res.status(status).send({ data, message });
     }
   );
@@ -24,13 +25,11 @@ class ClassStructureController {
       const CodeClass: string = String(req.body.CodeClass);
       const MarkType: string = String(req.body.MarkType);
       const Mark: number = Number(req.body.Mark);
-      const Position: number = Number(req.body.Position);
       const { data, message, status } =
         await classStructureServices.saveClassStructure(
           CodeClass,
           MarkType,
-          Mark,
-          Position
+          Mark
         );
       res.status(status).send({ data, message });
     }
@@ -41,14 +40,12 @@ class ClassStructureController {
       const CodeClass: string = String(req.body.CodeClass);
       const MarkType: string = String(req.body.MarkType);
       const Mark: number = Number(req.body.Mark);
-      const Position: number = Number(req.body.Position);
       const { data, message, status } =
         await classStructureServices.updateClassStructureByID(
           Id,
           CodeClass,
           MarkType,
-          Mark,
-          Position
+          Mark
         );
       res.status(status).send({ data, message });
     }
