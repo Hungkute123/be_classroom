@@ -52,7 +52,7 @@ class ClassStructureController {
   );
   removeClassStructureByID = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const Id: string = String(req.body._id);
+      const Id: string = String(req.query._id);
       const { data, message, status } =
         await classStructureServices.removeClassStructureByID(Id);
       res.status(status).send({ data, message });
