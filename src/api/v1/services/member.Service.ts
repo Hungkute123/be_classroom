@@ -1,3 +1,4 @@
+import { ClassModel } from "../models";
 import { MemberModel } from "../models/member.Model/member.Model";
 
 class MemberServices {
@@ -109,5 +110,6 @@ class MemberServices {
       throw new Error(error.messages);
     }
   };
+  
 }
 export const memberServices = new MemberServices();
