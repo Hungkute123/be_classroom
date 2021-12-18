@@ -87,5 +87,25 @@ class ClassServices {
       throw new Error(error.messages);
     }
   };
+  isOwnerClass = async (IDUser: string, CodeClass: string) => {
+    try {
+      const classes = await ClassModel.findOne({ CodeClass: CodeClass });
+      if(classes !== null && classes.IDUser === IDUser){
+        return {
+          data: true,
+          message: "owner class",
+          status: 400,
+        };
+      }else{
+        return {
+          data: false,
+          message: "not owner class",
+          status: 200,
+        };
+      }
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 }
 export const classServices = new ClassServices();

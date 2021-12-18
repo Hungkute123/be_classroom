@@ -83,5 +83,25 @@ class MemberController {
       res.status(status).send({ data, message });
     }
   );
+  joinClassroomByCodeClass = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const CodeClass: string = String(req.query.codeclass);
+      const Permission: string = 'Student';
+      const IDUser = res.locals.data._doc._id;
+      const { data, message, status } =
+        await memberServices.checkMemberValidClassroom(IDUser, CodeClass);
+      if (status !== 200) {
+        const { data, message, status } = await memberServices.addMember(
+          IDUser,
+          CodeClass,
+          Permission,
+          true
+        );
+        res.status(status).send({ data, message });
+      } else {
+        res.status(status).send({ data, message });
+      }
+    }
+  );
 }
 export const memberController = new MemberController();

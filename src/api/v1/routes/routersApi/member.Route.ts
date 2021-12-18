@@ -14,6 +14,7 @@ memberRouter.get("/teacher",authenTokenMiddleware, memberController.getTeacherBy
 memberRouter.get("/student", memberController.getStudentByCodeClass);
 memberRouter.get("/join",authenTokenMiddleware, memberController.joinClassroom);
 memberRouter.get("/my-info",authenTokenMiddleware, memberController.getMyInfo);
+memberRouter.get("/join-codeclass",authenTokenMiddleware, memberController.joinClassroomByCodeClass);
 
 //--------------------------------------------POST-----------------------------------------
 

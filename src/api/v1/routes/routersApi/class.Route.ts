@@ -14,7 +14,7 @@ import { authenTokenMiddleware } from '../../middlewares/authenToken.Middleware'
 classRouter.get('/',authenTokenMiddleware, classController.getClassByIDUser);
 classRouter.get('/codeclass',authenTokenMiddleware, classController.getClassByCodeClass);
 classRouter.get('/invite',authenTokenMiddleware, classController.inviteClassroom);
-
+classRouter.get("/owner",authenTokenMiddleware, classController.isOwnerClass);
 
 //--------------------------------------------POST-----------------------------------------
 classRouter.post('/',authenTokenMiddleware, classController.createClass);
