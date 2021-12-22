@@ -47,20 +47,36 @@ class MarkServices {
   ) => {
     try {
       for (let i = 0; i < listMark.length; i++) {
-          const number = listMark[i][structure];
-          if (isNaN(number) || typeof number != "number") {
-            return {
-              data: false,
-              message: "Wrong structure",
-              status: 200,
-            };
-          }
+        const number = listMark[i][structure];
+        if (isNaN(number) || typeof number != "number") {
+          return {
+            data: false,
+            message: "Wrong structure",
+            status: 200,
+          };
+        }
       }
 
       for (let i = 0; i < listMark.length; i++) {
+        const mark: any = await MarkModel.findOne({
+          MSSV: listMSSV[i],
+          CodeClass: codeClass,
+        });
+
+        let point = mark.Point || {};
+
+        if (
+          Object.keys(point).length != 0 &&
+          Object.keys(point).includes(structure)
+        ) {
+          delete point[structure];
+        }
+
+        Object.assign(point, listMark[i]);
+
         await MarkModel.findOneAndUpdate(
           { MSSV: listMSSV[i], CodeClass: codeClass },
-          { $set: { Point: listMark[i] } }
+          { $set: { Point: point } }
         );
       }
 
