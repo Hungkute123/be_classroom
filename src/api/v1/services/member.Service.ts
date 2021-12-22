@@ -110,6 +110,5 @@ class MemberServices {
       throw new Error(error.messages);
     }
   };
-  
 }
 export const memberServices = new MemberServices();

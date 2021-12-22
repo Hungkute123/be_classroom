@@ -40,12 +40,15 @@ class ClassStructureController {
       const CodeClass: string = String(req.body.CodeClass);
       const MarkType: string = String(req.body.MarkType);
       const Mark: number = Number(req.body.Mark);
+      const Complete: boolean = req.body.Complete;
+
       const { data, message, status } =
         await classStructureServices.updateClassStructureByID(
           Id,
           CodeClass,
           MarkType,
-          Mark
+          Mark,
+          Complete,
         );
       res.status(status).send({ data, message });
     }

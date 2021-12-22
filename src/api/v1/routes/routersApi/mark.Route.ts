@@ -1,25 +1,23 @@
 import { Router, Request, Response } from "express";
-const memberRouter = Router();
+const markRouter = Router();
 
 // Middleware
 
 // Controller
-import { memberController } from "../../controllers/member.Controller";
+import { markController } from "../../controllers";
 import { authenTokenMiddleware } from "../../middlewares/authenToken.Middleware";
 
 //-------------------------------------------- api/products/... -------------------------------
 
 //--------------------------------------------GET------------------------------------------
-memberRouter.get("/teacher", authenTokenMiddleware, memberController.getTeacherByCodeClass);
-memberRouter.get("/student", memberController.getStudentByCodeClass);
-memberRouter.get("/join", authenTokenMiddleware, memberController.joinClassroom);
-memberRouter.get("/my-info", authenTokenMiddleware, memberController.getMyInfo);
-memberRouter.get("/join-codeclass", authenTokenMiddleware, memberController.joinClassroomByCodeClass);
+markRouter.get("/get-all-mark", markController.getAllMark);
 
 //--------------------------------------------POST-----------------------------------------
+markRouter.post("/add-list-student", markController.addListStudent);
+markRouter.post("/add-mark", markController.addMark);
 
 //--------------------------------------------PUT------------------------------------------
 
 //--------------------------------------------DELETE----------------------------------------
 
-export = memberRouter;
+export = markRouter;

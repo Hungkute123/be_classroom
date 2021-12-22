@@ -28,7 +28,7 @@ class MemberController {
         dataTeacher.map((d: any, k: any) => {
           listID.push(d.IDUser);
         });
-        console.log("hung", listID)
+        console.log("hung", listID);
         const { data, message, status } = await accountServices.getInfoByListID(
           listID
         );
@@ -86,7 +86,7 @@ class MemberController {
   joinClassroomByCodeClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const CodeClass: string = String(req.query.codeclass);
-      const Permission: string = 'Student';
+      const Permission: string = "Student";
       const IDUser = res.locals.data._doc._id;
       const { data, message, status } =
         await memberServices.checkMemberValidClassroom(IDUser, CodeClass);
