@@ -41,14 +41,13 @@ class MarkServices {
 
   addMark = async (
     listMark: Array<any>,
-    listStructure: Array<any>,
+    structure: string,
     listMSSV: Array<any>,
     codeClass: string
   ) => {
     try {
       for (let i = 0; i < listMark.length; i++) {
-        for (let j = 1; j < listStructure.length; j++) {
-          const number = listMark[i][listStructure[j]];
+          const number = listMark[i][structure];
           if (isNaN(number) || typeof number != "number") {
             return {
               data: false,
@@ -56,7 +55,6 @@ class MarkServices {
               status: 200,
             };
           }
-        }
       }
 
       for (let i = 0; i < listMark.length; i++) {
