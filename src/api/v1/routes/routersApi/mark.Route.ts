@@ -10,11 +10,11 @@ import { authenTokenMiddleware } from "../../middlewares/authenToken.Middleware"
 //-------------------------------------------- api/products/... -------------------------------
 
 //--------------------------------------------GET------------------------------------------
-markRouter.get("/get-all-mark", markController.getAllMark);
+markRouter.get("/get-all-mark", authenTokenMiddleware, markController.getAllMark);
 
 //--------------------------------------------POST-----------------------------------------
-markRouter.post("/add-list-student", markController.addListStudent);
-markRouter.post("/add-mark", markController.addMark);
+markRouter.post("/add-list-student", authenTokenMiddleware, markController.addListStudent);
+markRouter.post("/add-mark", authenTokenMiddleware, markController.addMark);
 
 //--------------------------------------------PUT------------------------------------------
 

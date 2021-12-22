@@ -31,7 +31,7 @@ class MarkController {
       const body = req.body;
       const listMark = body.ListMark;
       const codeClass = body.CodeClass;
-      const listStructure = body.ListKeyStructure;
+      const structure = body.KeyStructure;
       const listMSSV = [];
 
       for (let i = 0; i < listMark.length; i++) {
@@ -41,7 +41,7 @@ class MarkController {
 
       const { data, message, status } = await markServices.addMark(
         listMark,
-        listStructure,
+        structure,
         listMSSV,
         codeClass
       );
