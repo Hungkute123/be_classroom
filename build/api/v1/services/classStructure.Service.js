@@ -36,29 +36,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.classServices = void 0;
-var class_Model_1 = require("../models/class.Model/class.Model");
-var ClassServices = /** @class */ (function () {
-    function ClassServices() {
+exports.classStructureServices = void 0;
+var classStructure_Model_1 = require("../models/classStructure.Model/classStructure.Model");
+var ClassStructureServices = /** @class */ (function () {
+    function ClassStructureServices() {
         var _this = this;
-        this.getClassByListCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_1;
+        this.getClassStructureByCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
+            var classStructure, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.find({ CodeClass: { $in: CodeClass } })];
+                        return [4 /*yield*/, classStructure_Model_1.ClassStructureModel.find({
+                                CodeClass: CodeClass,
+                            })];
                     case 1:
-                        classes = _a.sent();
-                        if (classes.length === 0) {
+                        classStructure = _a.sent();
+                        if (classStructure.length === 0) {
                             return [2 /*return*/, {
                                     data: null,
-                                    message: "can not find class",
+                                    message: "can not find class structure",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
-                                data: classes,
+                                data: classStructure,
                                 message: "Success",
                                 status: 200,
                             }];
@@ -69,27 +71,24 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.createClass = function (IDUser, CodeClass, Title, Theme, Part, Image, Room) { return __awaiter(_this, void 0, void 0, function () {
-            var createClass, saveClass, error_2;
+        this.saveClassStructure = function (CodeClass, MarkType, Mark) { return __awaiter(_this, void 0, void 0, function () {
+            var createClassStructure, saveClassStructure, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        createClass = new class_Model_1.ClassModel({
-                            IDUser: IDUser,
+                        createClassStructure = new classStructure_Model_1.ClassStructureModel({
                             CodeClass: CodeClass,
-                            Title: Title,
-                            Theme: Theme,
-                            Part: Part,
-                            Image: Image,
-                            Room: Room,
+                            MarkType: MarkType,
+                            Mark: Mark,
+                            Complete: false,
                         });
-                        return [4 /*yield*/, createClass.save()];
+                        return [4 /*yield*/, createClassStructure.save()];
                     case 1:
-                        saveClass = _a.sent();
+                        saveClassStructure = _a.sent();
                         return [2 /*return*/, {
-                                data: saveClass,
-                                message: "Create Class Success",
+                                data: saveClassStructure,
+                                message: "Create Class Structure Success",
                                 status: 200,
                             }];
                     case 2:
@@ -99,24 +98,31 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.getsingleCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_3;
+        this.updateClassStructureByID = function (Id, CodeClass, MarkType, Mark, Complete) { return __awaiter(_this, void 0, void 0, function () {
+            var classStructure, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.find({ CodeClass: CodeClass })];
+                        return [4 /*yield*/, classStructure_Model_1.ClassStructureModel.findOneAndUpdate({ _id: Id }, {
+                                $set: {
+                                    CodeClass: CodeClass,
+                                    MarkType: MarkType,
+                                    Mark: Mark,
+                                    Complete: Complete
+                                },
+                            })];
                     case 1:
-                        classes = _a.sent();
-                        if (classes.length === 0) {
+                        classStructure = _a.sent();
+                        if (!classStructure) {
                             return [2 /*return*/, {
-                                    data: null,
-                                    message: "can not find class with codeclass",
+                                    data: false,
+                                    message: "update failed",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
-                                data: classes,
+                                data: true,
                                 message: "Success",
                                 status: 200,
                             }];
@@ -127,24 +133,26 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.getClassByCodeClass = function (CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_4;
+        this.removeClassStructureByID = function (Id) { return __awaiter(_this, void 0, void 0, function () {
+            var classStructure, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.findOne({ CodeClass: CodeClass })];
+                        return [4 /*yield*/, classStructure_Model_1.ClassStructureModel.remove({
+                                _id: Id,
+                            })];
                     case 1:
-                        classes = _a.sent();
-                        if (classes === null) {
+                        classStructure = _a.sent();
+                        if (!classStructure) {
                             return [2 /*return*/, {
-                                    data: null,
-                                    message: "can not find class",
+                                    data: false,
+                                    message: "Failed",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
-                                data: classes,
+                                data: true,
                                 message: "Success",
                                 status: 200,
                             }];
@@ -155,38 +163,7 @@ var ClassServices = /** @class */ (function () {
                 }
             });
         }); };
-        this.isOwnerClass = function (IDUser, CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var classes, error_5;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, class_Model_1.ClassModel.findOne({ CodeClass: CodeClass })];
-                    case 1:
-                        classes = _a.sent();
-                        if (classes !== null && classes.IDUser === IDUser) {
-                            return [2 /*return*/, {
-                                    data: true,
-                                    message: "owner class",
-                                    status: 400,
-                                }];
-                        }
-                        else {
-                            return [2 /*return*/, {
-                                    data: false,
-                                    message: "not owner class",
-                                    status: 200,
-                                }];
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        error_5 = _a.sent();
-                        throw new Error(error_5.messages);
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
     }
-    return ClassServices;
+    return ClassStructureServices;
 }());
-exports.classServices = new ClassServices();
+exports.classStructureServices = new ClassStructureServices();

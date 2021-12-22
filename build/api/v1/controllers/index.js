@@ -12,3 +12,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./account.Controller"), exports);
 __exportStar(require("./class.Controller"), exports);
+__exportStar(require("./member.Controller"), exports);
+__exportStar(require("./classStructure.Controller"), exports);
+__exportStar(require("./mark.Controller"), exports);

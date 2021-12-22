@@ -11,4 +11,5 @@ memberRouter.get("/teacher", authenToken_Middleware_1.authenTokenMiddleware, mem
 memberRouter.get("/student", member_Controller_1.memberController.getStudentByCodeClass);
 memberRouter.get("/join", authenToken_Middleware_1.authenTokenMiddleware, member_Controller_1.memberController.joinClassroom);
 memberRouter.get("/my-info", authenToken_Middleware_1.authenTokenMiddleware, member_Controller_1.memberController.getMyInfo);
+memberRouter.get("/join-codeclass", authenToken_Middleware_1.authenTokenMiddleware, member_Controller_1.memberController.joinClassroomByCodeClass);
 module.exports = memberRouter;

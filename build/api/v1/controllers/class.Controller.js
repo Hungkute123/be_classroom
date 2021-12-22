@@ -182,6 +182,21 @@ var ClassController = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); });
+        this.isOwnerClass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var CodeClass, IDUser, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        CodeClass = String(req.query.codeclass);
+                        IDUser = res.locals.data._doc._id;
+                        return [4 /*yield*/, class_Service_1.classServices.isOwnerClass(IDUser, CodeClass)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).send({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
     }
     return ClassController;
 }());
