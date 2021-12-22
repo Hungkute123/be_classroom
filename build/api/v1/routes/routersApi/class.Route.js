@@ -10,6 +10,7 @@ var authenToken_Middleware_1 = require("../../middlewares/authenToken.Middleware
 classRouter.get('/', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.getClassByIDUser);
 classRouter.get('/codeclass', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.getClassByCodeClass);
 classRouter.get('/invite', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.inviteClassroom);
+classRouter.get("/owner", authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.isOwnerClass);
 //--------------------------------------------POST-----------------------------------------
 classRouter.post('/', authenToken_Middleware_1.authenTokenMiddleware, class_Controller_1.classController.createClass);
 module.exports = classRouter;

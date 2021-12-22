@@ -136,6 +136,30 @@ var MemberController = /** @class */ (function () {
                 }
             });
         }); });
+        this.joinClassroomByCodeClass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var CodeClass, Permission, IDUser, _a, data, message, status, _b, data_3, message_3, status_3;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        CodeClass = String(req.query.codeclass);
+                        Permission = "Student";
+                        IDUser = res.locals.data._doc._id;
+                        return [4 /*yield*/, member_Service_1.memberServices.checkMemberValidClassroom(IDUser, CodeClass)];
+                    case 1:
+                        _a = _c.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        if (!(status !== 200)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, Permission, true)];
+                    case 2:
+                        _b = _c.sent(), data_3 = _b.data, message_3 = _b.message, status_3 = _b.status;
+                        res.status(status_3).send({ data: data_3, message: message_3 });
+                        return [3 /*break*/, 4];
+                    case 3:
+                        res.status(status).send({ data: data, message: message });
+                        _c.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); });
     }
     return MemberController;
 }());

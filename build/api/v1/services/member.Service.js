@@ -51,14 +51,14 @@ var MemberServices = /** @class */ (function () {
                             IDUser: IDUser,
                             CodeClass: CodeClass,
                             Permission: Permission,
-                            Status: Status
+                            Status: Status,
                         });
                         return [4 /*yield*/, addMember.save()];
                     case 1:
                         saveMember = _a.sent();
                         return [2 /*return*/, {
                                 data: saveMember,
-                                message: 'Add member susscess',
+                                message: "Add member susscess",
                                 status: 200,
                             }];
                     case 2:
@@ -74,19 +74,22 @@ var MemberServices = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, member_Model_1.MemberModel.find({ CodeClass: CodeClass, Permission: 'Teacher' })];
+                        return [4 /*yield*/, member_Model_1.MemberModel.find({
+                                CodeClass: CodeClass,
+                                Permission: "Teacher",
+                            })];
                     case 1:
                         members = _a.sent();
                         if (members === null) {
                             return [2 /*return*/, {
                                     dataTeacher: members,
-                                    message: 'can not find teacher',
+                                    message: "can not find teacher",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
                                 dataTeacher: members,
-                                message: 'Success',
+                                message: "Success",
                                 status: 200,
                             }];
                     case 2:
@@ -102,19 +105,22 @@ var MemberServices = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, member_Model_1.MemberModel.find({ CodeClass: CodeClass, Permission: 'Student' })];
+                        return [4 /*yield*/, member_Model_1.MemberModel.find({
+                                CodeClass: CodeClass,
+                                Permission: "Student",
+                            })];
                     case 1:
                         members = _a.sent();
                         if (members === null) {
                             return [2 /*return*/, {
                                     dataStudent: members,
-                                    message: 'can not find student',
+                                    message: "can not find student",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
                                 dataStudent: members,
-                                message: 'Success',
+                                message: "Success",
                                 status: 200,
                             }];
                     case 2:
@@ -130,19 +136,22 @@ var MemberServices = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, member_Model_1.MemberModel.findOne({ IDUser: IDUser, CodeClass: CodeClass })];
+                        return [4 /*yield*/, member_Model_1.MemberModel.findOne({
+                                IDUser: IDUser,
+                                CodeClass: CodeClass,
+                            })];
                     case 1:
                         members = _a.sent();
                         if (members === null) {
                             return [2 /*return*/, {
                                     data: null,
-                                    message: 'can not find student',
+                                    message: "can not find student",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
                                 data: members,
-                                message: 'Success',
+                                message: "Success",
                                 status: 200,
                             }];
                     case 2:
@@ -164,13 +173,13 @@ var MemberServices = /** @class */ (function () {
                         if (members === null) {
                             return [2 /*return*/, {
                                     dataUser: members,
-                                    message: 'can not find teacher',
+                                    message: "can not find teacher",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
                                 dataUser: members,
-                                message: 'Success',
+                                message: "Success",
                                 status: 200,
                             }];
                     case 2:
