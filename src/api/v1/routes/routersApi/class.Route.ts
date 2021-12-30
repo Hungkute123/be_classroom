@@ -15,7 +15,7 @@ classRouter.get('/',authenTokenMiddleware, classController.getClassByIDUser);
 classRouter.get('/codeclass',authenTokenMiddleware, classController.getClassByCodeClass);
 classRouter.get('/invite',authenTokenMiddleware, classController.inviteClassroom);
 classRouter.get("/owner",authenTokenMiddleware, classController.isOwnerClass);
-
+classRouter.get('/list-class', classController.getListClass);
 //--------------------------------------------POST-----------------------------------------
 classRouter.post('/',authenTokenMiddleware, classController.createClass);
 

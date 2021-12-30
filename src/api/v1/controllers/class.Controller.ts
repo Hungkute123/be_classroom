@@ -130,5 +130,11 @@ class ClassController {
       res.status(status).send({ data, message });
     }
   );
+  getListClass = async (req: Request, res: Response): Promise<void> => {
+      const { data, message, status } =
+        await classServices.getListClass();
+      res.status(status).send({ data, message });
+    
+  };
 }
 export const classController = new ClassController();

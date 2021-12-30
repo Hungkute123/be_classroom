@@ -1,3 +1,4 @@
+import { AccountModel } from "../models";
 import { ClassModel } from "../models/class.Model/class.Model";
 import { MemberModel } from "../models/member.Model/member.Model";
 class ClassServices {
@@ -102,6 +103,34 @@ class ClassServices {
           message: "not owner class",
           status: 200,
         };
+      }
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+  getListClass = async () => {
+    try {
+      const classes = await ClassModel.find({});
+      if (classes === null) {
+        return {
+          data: null,
+          message: "can not find class",
+          status: 400,
+        };
+      }else{
+        let dbIDUser: any[] = [];
+        classes.map((d: any, k: any) => {
+          dbIDUser.push(d.IDUser);
+        });
+        const data= await AccountModel.find(
+          { _id: { $in: dbIDUser } },
+          { Password: 0, __v: 0 }
+        );
+          return {
+            data: data,
+            message: "Success",
+            status: 200,
+          };
       }
     } catch (error: any) {
       throw new Error(error.messages);

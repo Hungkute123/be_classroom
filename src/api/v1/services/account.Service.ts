@@ -118,5 +118,28 @@ class AccountServices {
       throw new Error(error.messages);
     }
   };
+  getListAccountsWithPermission = async (Permission: string) => {
+    try {
+      const list = await AccountModel.find(
+        { Permission: Permission },
+        { Password: 0, __v: 0 }
+      );
+      if (list.length === 0) {
+        return {
+          data: null,
+          message: "Not available",
+          status: 400,
+        };
+      }
+
+      return {
+        data: list,
+        message: "Success",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 }
 export const accountServices = new AccountServices();

@@ -126,7 +126,7 @@ class AccountController {
         Introduce: "",
         Birth: "",
         Gender: "",
-        Permission: 0,
+        Permission: "User",
         CodeClass: "",
         Status: false,
         Image:
@@ -181,8 +181,6 @@ class AccountController {
       const passOld = await accountServices.getPasswordByEmail(email);
       const ret = bcrypt.compareSync(password, passOld);
 
-      console.log(password, passOld);
-
       if (ret) {
         const account = {
           Email: email,
@@ -222,6 +220,86 @@ class AccountController {
         { Email: email }
       );
 
+      res.status(status).json({ data, message });
+    }
+  );
+  adminLogin = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const body = req.body;
+      const email = String(body.Email);
+      const pass = String(body.Password);
+
+      const password = await accountServices.getPasswordByEmail(email);
+
+      if (password) {
+        const ret = bcrypt.compareSync(pass, password);
+
+        if (ret) {
+          const data = await accountServices.getAccount(
+            { Email: email },
+            { Password: 0, __v: 0 }
+          );
+          if(data && data.Permission ==="Admin"){
+            const accessToken = jwt.sign(
+              { ...data },
+              process.env.ACCESS_TOKEN_SECRET as string,
+              {
+                expiresIn: process.env.TIMERESET,
+              }
+            );
+  
+            res.status(200).json({ data: accessToken, message: "Login success" });
+  
+            return;
+          }
+        }
+      }
+
+      res.status(200).json({ data: false, message: "Login failed" });
+    }
+  );
+  adminRegister = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const body = req.body;
+      const email = String(body.Email);
+      const pass = String(body.Password);
+      const name = String(body.Name);
+      const passCover = bcrypt.hashSync(pass, Number(process.env.ROUNDS));
+
+      const account = {
+        Email: email,
+        Password: passCover,
+        Name: "",
+        Phone: "",
+        MSSV: "",
+        Year: "",
+        Introduce: "",
+        Birth: "",
+        Gender: "",
+        Permission: "Admin",
+        CodeClass: "",
+        Status: true,
+        Image:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhvWpQrh3nIxmjLBQSyH5uu7OKpprR2b4-g&usqp=CAU",
+      };
+
+      const { data, message, status } = await accountServices.register(
+        account,
+        email
+      );
+
+      res.status(status).json({ data, message });
+    }
+  );
+  getListUserAccounts = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const { data, message, status } = await accountServices.getListAccountsWithPermission('User');
+      res.status(status).json({ data, message });
+    }
+  );
+  getListAdminAccounts = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const { data, message, status } = await accountServices.getListAccountsWithPermission('Admin');
       res.status(status).json({ data, message });
     }
   );
