@@ -16,9 +16,10 @@ class MemberServices {
         Status: Status,
       });
       const saveMember = await addMember.save();
+      console.log(saveMember);
       return {
         data: saveMember,
-        message: "Add member susscess",
+        message: "Tham gia lớp học thành công",
         status: 200,
       };
     } catch (error: any) {
@@ -75,16 +76,26 @@ class MemberServices {
         IDUser: IDUser,
         CodeClass: CodeClass,
       });
-      if (members === null) {
+      const classroom = await ClassModel.findOne({
+        CodeClass: CodeClass,
+      });
+      if(classroom === null){
         return {
-          data: null,
-          message: "can not find student",
+          data: "Lớp học không tồn tại",
+          message: "Lớp học không tồn tại",
+          status: 401,
+        };
+      }
+      if (members === null && classroom != null) {
+        return {
+          data: "Bạn chưa tham gia lớp học",
+          message: "Bạn chưa tham gia lớp học",
           status: 400,
         };
       }
       return {
         data: members,
-        message: "Success",
+        message: "Bạn đã tham gia lớp học",
         status: 200,
       };
     } catch (error: any) {
