@@ -4,6 +4,8 @@ import { parse } from "path/posix";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import axios from "axios";
+import cryptoRandomString from "crypto-random-string";
+import nodemailer from "nodemailer";
 
 // dotenv
 import dotenv from "dotenv";
@@ -225,6 +227,7 @@ class AccountController {
       res.status(status).json({ data, message });
     }
   );
+  
   adminLogin = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const body = req.body;
@@ -311,6 +314,61 @@ class AccountController {
       const { data, message, status } = await accountServices.deleteAccount(
         id
       );
+      res.status(status).json({ data, message });
+    }
+  );
+
+  forgotPassword = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const { email } = req.body;
+      const password = cryptoRandomString({ length: 8, type: "base64" });
+      const passwordEncode = bcrypt.hashSync(
+        password,
+        Number(process.env.ROUNDS)
+      );
+
+      const { data, message, status } = await accountServices.forgotPassword(
+        email as string,
+        passwordEncode
+      );
+
+      if (data) {
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          auth: {
+            user: process.env.MAIL, // generated ethereal user
+            pass: process.env.PASS, // generated ethereal password
+          },
+        });
+
+        // send mail with defined transport object
+        const mailOptions = {
+          from: "Classroom",
+          to: email,
+          subject: "Hệ thống ClassRoom - Mật khẩu mới của tài khoản",
+          text: "Chào mừng bạn đến với Classroom",
+          html:
+            "Mật khẩu mới của bạn là <b>" +
+            password +
+            "</b> <br> Hãy đổi mật khẩu ngay nhé !!!",
+        };
+
+        transporter.sendMail(
+          mailOptions,
+          async function (error: any, info: any) {
+            if (error) {
+              console.log(error);
+              res
+                .status(400)
+                .json({ data: false, message: "can not send email" });
+            } else {
+              res.status(status).json({ data, message });
+            }
+          }
+        );
+
+        return;
+      }
 
       res.status(status).json({ data, message });
     }

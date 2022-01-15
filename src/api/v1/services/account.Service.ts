@@ -1,3 +1,4 @@
+import { async } from "crypto-random-string";
 import { AccountModel } from "../models";
 
 class AccountServices {
@@ -118,7 +119,7 @@ class AccountServices {
       throw new Error(error.messages);
     }
   };
-  getListAccountsWithPermission = async (Permission: string) => {
+getListAccountsWithPermission = async (Permission: string) => {
     try {
       const list = await AccountModel.find(
         { Permission: Permission },
@@ -158,6 +159,31 @@ class AccountServices {
       return {
         data: false,
         message: "Delete failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+
+  forgotPassword = async (email: string, password: string) => {
+    try {
+      const update = await AccountModel.findOneAndUpdate(
+        { Email: email },
+        { $set: { Password: password } }
+      );
+
+      if (update) {
+        return {
+          data: true,
+          message: "Successfully updated new password",
+          status: 200,
+        };
+      }
+
+      return {
+        data: false,
+        message: "New password update failed",
         status: 200,
       };
     } catch (error: any) {

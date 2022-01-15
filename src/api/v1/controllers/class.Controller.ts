@@ -125,8 +125,10 @@ class ClassController {
     async (req: Request, res: Response): Promise<void> => {
       const CodeClass: string = String(req.query.codeclass);
       const IDUser = res.locals.data._doc._id;
-      const { data, message, status } =
-        await classServices.isOwnerClass(IDUser, CodeClass);
+      const { data, message, status } = await classServices.isOwnerClass(
+        IDUser,
+        CodeClass
+      );
       res.status(status).send({ data, message });
     }
   );

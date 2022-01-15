@@ -19,6 +19,8 @@ accountRouter.post('/login-google', accountController.loginWithGoogle);
 accountRouter.post("/register", accountController.register);
 accountRouter.post("/admin-login", accountController.adminLogin);
 accountRouter.post("/admin-register", accountController.adminRegister);
+accountRouter.post("/forgot-password", accountController.forgotPassword);
+
 //--------------------------------------------PATCH------------------------------------------
 accountRouter.patch("/update-account", authenTokenMiddleware, accountController.updateAccount);
 accountRouter.patch("/update-account-pass", authenTokenMiddleware, accountController.updatePass);
