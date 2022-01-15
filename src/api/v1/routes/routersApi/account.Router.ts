@@ -27,5 +27,6 @@ accountRouter.patch("/update-account-mssv", authenTokenMiddleware, accountContro
 //--------------------------------------------PUT------------------------------------------
 
 //--------------------------------------------DELETE----------------------------------------
+accountRouter.delete("/delete-account", authenTokenMiddleware, accountController.deleteAccount)
 
 export = accountRouter;

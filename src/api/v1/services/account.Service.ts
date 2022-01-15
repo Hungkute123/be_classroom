@@ -141,5 +141,28 @@ class AccountServices {
       throw new Error(error.messages);
     }
   };
+  deleteAccount = async (id: any) => {
+    try {
+      const del = await AccountModel.deleteOne(
+        { _id: id },
+      );
+
+      if (del) {
+        return {
+          data: true,
+          message: "Account delete successfully",
+          status: 200,
+        };
+      }
+
+      return {
+        data: false,
+        message: "Delete failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 }
 export const accountServices = new AccountServices();

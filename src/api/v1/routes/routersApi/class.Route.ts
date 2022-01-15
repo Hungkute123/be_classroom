@@ -18,9 +18,10 @@ classRouter.get("/owner",authenTokenMiddleware, classController.isOwnerClass);
 classRouter.get('/list-class', classController.getListClass);
 //--------------------------------------------POST-----------------------------------------
 classRouter.post('/',authenTokenMiddleware, classController.createClass);
-
+//--------------------------------------------PATCH------------------------------------------
+classRouter.patch("/update-class", authenTokenMiddleware, classController.updateClass);
 //--------------------------------------------PUT------------------------------------------
 
 //--------------------------------------------DELETE----------------------------------------
-
+classRouter.delete("/delete-class", authenTokenMiddleware, classController.deleteClass)
 export = classRouter;

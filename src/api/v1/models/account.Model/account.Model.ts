@@ -14,6 +14,7 @@ interface Account {
   CodeClass?: string;
   Status?: boolean;
   Image?: string;
+  CreateDate?: string;
 }
 
 const AccountSchema = new Schema<Account>({
@@ -30,6 +31,7 @@ const AccountSchema = new Schema<Account>({
   CodeClass: String,
   Status: Boolean,
   Image: String,
+  CreateDate: String,
 });
 
 export const AccountModel = model<Account>("users", AccountSchema);

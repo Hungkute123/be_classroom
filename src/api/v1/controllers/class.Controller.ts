@@ -126,15 +126,41 @@ class ClassController {
       const CodeClass: string = String(req.query.codeclass);
       const IDUser = res.locals.data._doc._id;
       const { data, message, status } =
-          await classServices.isOwnerClass(IDUser, CodeClass);
+        await classServices.isOwnerClass(IDUser, CodeClass);
       res.status(status).send({ data, message });
     }
   );
   getListClass = async (req: Request, res: Response): Promise<void> => {
-      const { data, message, status } =
-        await classServices.getListClass();
-      res.status(status).send({ data, message });
-    
+    const { data, message, status } =
+      await classServices.getListClass();
+    res.status(status).send({ data, message });
+
   };
+  updateClass = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const body = req.body;
+      const key = { ...body.key };
+      const classroom = { ...body.classroom };
+      console.log(key, classroom);
+
+      const { data, message, status } = await classServices.updateClass(
+        classroom,
+        key
+      );
+
+      res.status(status).json({ data, message });
+    }
+  );
+  deleteClass = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const query = req.query;
+      const id = query.id;
+      const { data, message, status } = await classServices.deleteClass(
+        id
+      );
+
+      res.status(status).json({ data, message });
+    }
+  );
 }
 export const classController = new ClassController();
