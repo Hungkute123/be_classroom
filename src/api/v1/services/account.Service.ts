@@ -119,6 +119,52 @@ class AccountServices {
       throw new Error(error.messages);
     }
   };
+getListAccountsWithPermission = async (Permission: string) => {
+    try {
+      const list = await AccountModel.find(
+        { Permission: Permission },
+        { Password: 0, __v: 0 }
+      );
+      if (list.length === 0) {
+        return {
+          data: null,
+          message: "Not available",
+          status: 400,
+        };
+      }
+
+      return {
+        data: list,
+        message: "Success",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+  deleteAccount = async (id: any) => {
+    try {
+      const del = await AccountModel.deleteOne(
+        { _id: id },
+      );
+
+      if (del) {
+        return {
+          data: true,
+          message: "Account delete successfully",
+          status: 200,
+        };
+      }
+
+      return {
+        data: false,
+        message: "Delete failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 
   forgotPassword = async (email: string, password: string) => {
     try {

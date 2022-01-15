@@ -10,10 +10,11 @@ interface Account {
   Introduce?: string;
   Birth?: string;
   Gender?: string;
-  Permission?: number;
+  Permission?: string;
   CodeClass?: string;
   Status?: boolean;
   Image?: string;
+  CreateDate?: string;
 }
 
 const AccountSchema = new Schema<Account>({
@@ -26,10 +27,11 @@ const AccountSchema = new Schema<Account>({
   Introduce: String,
   Birth: String,
   Gender: String,
-  Permission: Number,
+  Permission: String,
   CodeClass: String,
   Status: Boolean,
   Image: String,
+  CreateDate: String,
 });
 
 export const AccountModel = model<Account>("users", AccountSchema);

@@ -7,7 +7,8 @@ interface Class {
     Theme?: string,
     Part?: string,
     Image: string,
-    Room?: String,
+    Room?: string,
+    Status?: boolean
 }
 const ClassSchema =  new Schema<Class>({
     IDUser: {type: String, require: true},
@@ -17,6 +18,7 @@ const ClassSchema =  new Schema<Class>({
     Part: String,
     Image: {type: String, require: true},
     Room: String,
+    Status: Boolean,
 });
 
 export const ClassModel = model<Class>('class', ClassSchema);
