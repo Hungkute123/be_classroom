@@ -87,7 +87,6 @@ class ClassController {
     async (req: Request, res: Response): Promise<void> => {
       const email: string = String(req.query.email);
       const path: string = String(req.query.path);
-      console.log("haha", req.query);
       // create reusable transporter object using the default SMTP transport
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
