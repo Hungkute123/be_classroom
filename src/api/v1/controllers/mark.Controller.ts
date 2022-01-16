@@ -63,14 +63,30 @@ class MarkController {
     }
   );
 
+  getMark = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const query = req.query;
+      const codeClass = String(query.CodeClass);
+      const MSSV = String(query.MSSV);
+
+      const { data, message, status } = await markServices.getMark(
+        codeClass,
+        MSSV
+      );
+
+      res.status(status).json({ data, message });
+    }
+  );
+
   updateMark = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const { codeClass, MSSV, Point } = req.body;
+      const { codeClass, MSSV, Point, MarkType } = req.body;
 
       const { data, message, status } = await markServices.updateMark(
         codeClass,
         MSSV,
-        Point
+        Point,
+        MarkType
       );
 
       res.status(status).json({ data, message });

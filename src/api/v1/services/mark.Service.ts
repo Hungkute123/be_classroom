@@ -107,11 +107,41 @@ class MarkServices {
     }
   };
 
-  updateMark = async (codeClass: string, MSSV: string, Point: any) => {
+  getMark = async (codeClass: string, MSSV: string) => {
     try {
+      const mark = await MarkModel.findOne(
+        { CodeClass: codeClass, MSSV: MSSV },
+        { _id: 0, _v: 0 }
+      );
+
+      return {
+        data: mark,
+        message: "Info Mark",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+
+  updateMark = async (
+    codeClass: string,
+    MSSV: string,
+    Point: any,
+    MarkType: string
+  ) => {
+    try {
+      const mark: any = await MarkModel.findOne({
+        MSSV: MSSV,
+        CodeClass: codeClass,
+      });
+
+      let point = mark.Point || {};
+      point[MarkType] = Point;
+      
       const updateMark = await MarkModel.findOneAndUpdate(
         { CodeClass: codeClass, MSSV: MSSV },
-        { $set: { Point: Point } }
+        { $set: { Point: point } }
       );
 
       if (updateMark) {
