@@ -61,7 +61,8 @@ class MemberController {
       const IDUser = res.locals.data._doc._id;
       const { data, message, status } =
         await memberServices.checkMemberValidClassroom(IDUser, CodeClass);
-      if (status !== 200) {
+        console.log(message);
+      if (status === 400) {
         const { data, message, status } = await memberServices.addMember(
           IDUser,
           CodeClass,
