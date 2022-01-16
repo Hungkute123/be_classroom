@@ -62,5 +62,19 @@ class MarkController {
       res.status(status).json({ data, message });
     }
   );
+
+  updateMark = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const { codeClass, MSSV, Point } = req.body;
+
+      const { data, message, status } = await markServices.updateMark(
+        codeClass,
+        MSSV,
+        Point
+      );
+
+      res.status(status).json({ data, message });
+    }
+  );
 }
 export const markController = new MarkController();

@@ -106,6 +106,31 @@ class MarkServices {
       throw new Error(error.messages);
     }
   };
+
+  updateMark = async (codeClass: string, MSSV: string, Point: any) => {
+    try {
+      const updateMark = await MarkModel.findOneAndUpdate(
+        { CodeClass: codeClass, MSSV: MSSV },
+        { $set: { Point: Point } }
+      );
+
+      if (updateMark) {
+        return {
+          data: true,
+          message: "Update success",
+          status: 200,
+        };
+      }
+
+      return {
+        data: false,
+        message: "Update failed",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 }
 
 export const markServices = new MarkServices();

@@ -17,6 +17,7 @@ markRouter.post("/add-list-student", authenTokenMiddleware, markController.addLi
 markRouter.post("/add-mark", authenTokenMiddleware, markController.addMark);
 
 //--------------------------------------------PUT------------------------------------------
+markRouter.patch("/update-mark", authenTokenMiddleware, markController.updateMark);
 
 //--------------------------------------------DELETE----------------------------------------
 
