@@ -24,8 +24,22 @@ class NotificationServices {
                 Url: url,
             });
             const saveNotification = await addNotification.save();
+            const notification = await NotificationModel.aggregate([
+              { "$addFields": { "userId": { "$toObjectId": "$SenderID" } } },
+              {
+                "$lookup":
+                {
+                  from: "users",
+                  localField: "userId",
+                  foreignField: "_id",
+                  as: "info"
+                }
+              },
+              {"$match":{_id: saveNotification._id}}
+            ])
+            console.log("kka", notification)
             return {
-                data: saveNotification,
+                data: notification[0],
                 message: "Lưu thông báo thành công",
                 status: 200,
             };
@@ -36,7 +50,20 @@ class NotificationServices {
 
     getNotificationByIDUser = async (id: string) => {
         try {
-            const notifications = await NotificationModel.find({ RecipientID: id });
+            const notifications = await NotificationModel.aggregate([
+              { "$addFields": { "userId": { "$toObjectId": "$SenderID" } } },
+              {
+                "$lookup":
+                {
+                  from: "users",
+                  localField: "userId",
+                  foreignField: "_id",
+                  as: "info"
+                }
+              },
+              {"$match":{"RecipientID": id}}
+            ])
+            // find({ RecipientID: id });
             return {
                 data: notifications,
                 message: "Success",

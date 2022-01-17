@@ -31,7 +31,7 @@ export const startSocketIO = (server: any) => {
                 notification.url)
                 console.log(noti);
                 const data = [noti.data]
-            io.to(notification.recipientID).emit('dataNotification', {
+            io.to(notification.recipientID).emit('newDataNotification', {
                 data: data
                 // NotificationType: notificationType,
                 // CreateDate: createDate,
@@ -42,10 +42,11 @@ export const startSocketIO = (server: any) => {
                 // ClassName: className,
                 // Url: url,
             });
-            socket.broadcast.to(notification.recipientID).emit('dataNotification', {data: data });
+            // socket.broadcast.to(notification.recipientID).emit('dataNotification', {data: data });
         });
-        socket.on("updateNotification", (notification: object, key: object) => {
-            notificationServices.updateNotification(notification, key);
+        socket.on("updateNotification", (noti: any) => {
+            console.log("huhu",noti)
+            notificationServices.updateNotification(noti.notification, noti.key);
         })
 
         //when the user exits the room

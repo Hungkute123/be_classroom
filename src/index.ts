@@ -17,15 +17,12 @@ config();
 // server initialization
 const app: Express = express();
 
-
-
 // connect backend to DB
 import { connectDB } from './start/connectDB';
 connectDB();
+
 // start socket.io
 import { startSocketIO } from './start/socketIO';
-// const server = startSocketIO(app);
-// listen on port: default port = 5000
 import { createServer } from "http";
 const server = createServer(app);
 startSocketIO(server);
@@ -38,8 +35,6 @@ setViewEngine(app);
 import { startMiddleware } from './api/v1/middlewares/start.Middleware';
 startMiddleware(app);
 
-
-
 //  router api
 import { routersApi } from './api/v1/routes/start.Route';
 routersApi(app);
@@ -47,7 +42,7 @@ routersApi(app);
 import { unexpectedError } from './api/v1/middlewares/unexpectedError.Middleware';
 app.use(unexpectedError);
 
-
+// listen on port: default port = 5000
 const PORT: any = process.env.PORT || 5000;
 server.listen(PORT, (): void => {
 	console.log(`http://localhost:${PORT}`);
