@@ -11,5 +11,5 @@ export const connectDB = async function () {
 		useUnifiedTopology: true,
 		useCreateIndex: true,
 	});
-	console.log(`Connected to success`);
+	console.log(`Connected to success database`);
 };
