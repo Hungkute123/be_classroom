@@ -17,7 +17,7 @@ reviewMarkRouter.get("/get-all-review", authenTokenMiddleware, reviewMarkControl
 reviewMarkRouter.post("/add-review", authenTokenMiddleware, reviewMarkController.addReviewMark);
 
 //--------------------------------------------PUT------------------------------------------
-
+reviewMarkRouter.patch("/update-review", authenTokenMiddleware, reviewMarkController.updateReviewMark);
 
 //--------------------------------------------DELETE----------------------------------------
 
