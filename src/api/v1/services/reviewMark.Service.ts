@@ -1,7 +1,24 @@
 import { ReviewMarkModel } from "../models";
 
 class ReviewMarkServices {
-  getAllReviewMark = async (codeClass: string, MSSV: string) => {
+  getAllReviewMark = async (codeClass: string) => {
+    try {
+      const reviewMark = await ReviewMarkModel.find(
+        { CodeClass: codeClass },
+        { _id: 0, _v: 0 }
+      );
+
+      return {
+        data: reviewMark,
+        message: "List Review Mark " + { codeClass },
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
+
+  getReviewMark = async (codeClass: string, MSSV: string) => {
     try {
       const reviewMark = await ReviewMarkModel.find(
         { CodeClass: codeClass, MSSV: MSSV },
@@ -10,7 +27,7 @@ class ReviewMarkServices {
 
       return {
         data: reviewMark,
-        message: "List Review Mark " + { codeClass },
+        message: "List Review Mark " + { codeClass } + { MSSV },
         status: 200,
       };
     } catch (error: any) {

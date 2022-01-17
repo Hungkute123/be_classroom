@@ -59,15 +59,21 @@ class MemberController {
       const CodeClass: string = String(req.query.codeclass);
       const Permission: string = String(req.query.permission);
       const IDUser = res.locals.data._doc._id;
+      const Name = res.locals.data._doc.Name;
+      const Image = res.locals.data._doc.Image;
+      const MSSV = res.locals.data._doc.MSSV;
       const { data, message, status } =
         await memberServices.checkMemberValidClassroom(IDUser, CodeClass);
-        console.log(message);
+      console.log(message);
       if (status === 400) {
         const { data, message, status } = await memberServices.addMember(
           IDUser,
           CodeClass,
           Permission,
-          true
+          true,
+          Name,
+          Image,
+          MSSV
         );
         res.status(status).send({ data, message });
       } else {
@@ -89,6 +95,9 @@ class MemberController {
       const CodeClass: string = String(req.query.codeclass);
       const Permission: string = "Student";
       const IDUser = res.locals.data._doc._id;
+      const Name = res.locals.data._doc.Name;
+      const Image = res.locals.data._doc.Image;
+      const MSSV = res.locals.data._doc.MSSV;
       const { data, message, status } =
         await memberServices.checkMemberValidClassroom(IDUser, CodeClass);
       if (status !== 200) {
@@ -96,7 +105,10 @@ class MemberController {
           IDUser,
           CodeClass,
           Permission,
-          true
+          true,
+          Name,
+          Image,
+          MSSV
         );
         res.status(status).send({ data, message });
       } else {

@@ -1,4 +1,4 @@
-import { ClassModel } from "../models";
+import { ClassModel, MarkModel } from "../models";
 import { MemberModel } from "../models/member.Model/member.Model";
 
 class MemberServices {
@@ -6,7 +6,10 @@ class MemberServices {
     IDUser: string,
     CodeClass: string,
     Permission: string,
-    Status: boolean
+    Status: boolean,
+    Name: string,
+    Image: string,
+    MSSV: string
   ) => {
     try {
       const addMember = new MemberModel({
@@ -16,7 +19,25 @@ class MemberServices {
         Status: Status,
       });
       const saveMember = await addMember.save();
-      console.log(saveMember);
+
+      const mark = await MarkModel.findOne({
+        Name: Name,
+        MSSV: MSSV,
+        CodeClass: CodeClass,
+      });
+
+      if (!mark) {
+        const addMark = new MarkModel({
+          Name: Name,
+          MSSV: MSSV,
+          CodeClass: CodeClass,
+          IDUser: IDUser,
+          Image: Image,
+        });
+
+        await addMark.save();
+      }
+
       return {
         data: saveMember,
         message: "Tham gia lớp học thành công",

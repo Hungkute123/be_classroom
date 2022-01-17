@@ -119,7 +119,8 @@ class AccountServices {
       throw new Error(error.messages);
     }
   };
-getListAccountsWithPermission = async (Permission: string) => {
+
+  getListAccountsWithPermission = async (Permission: string) => {
     try {
       const list = await AccountModel.find(
         { Permission: Permission },
@@ -142,11 +143,10 @@ getListAccountsWithPermission = async (Permission: string) => {
       throw new Error(error.messages);
     }
   };
+  
   deleteAccount = async (id: any) => {
     try {
-      const del = await AccountModel.deleteOne(
-        { _id: id },
-      );
+      const del = await AccountModel.deleteOne({ _id: id });
 
       if (del) {
         return {

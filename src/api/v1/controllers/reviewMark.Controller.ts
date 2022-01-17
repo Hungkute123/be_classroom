@@ -15,10 +15,22 @@ class ReviewMarkController {
     async (req: Request, res: Response): Promise<void> => {
       const query = req.query;
       const codeClass = String(query.CodeClass);
+
+      const { data, message, status } =
+        await reviewMarkServices.getAllReviewMark(codeClass);
+
+      res.status(status).json({ data, message });
+    }
+  );
+
+  getReviewMark = asyncMiddleware(
+    async (req: Request, res: Response): Promise<void> => {
+      const query = req.query;
+      const codeClass = String(query.CodeClass);
       const MSSV = String(query.MSSV);
 
       const { data, message, status } =
-        await reviewMarkServices.getAllReviewMark(codeClass, MSSV);
+        await reviewMarkServices.getReviewMark(codeClass, MSSV);
 
       res.status(status).json({ data, message });
     }

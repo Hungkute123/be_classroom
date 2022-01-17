@@ -60,7 +60,18 @@ class ClassController {
       Room
     );
     if (data !== null) {
-      await memberServices.addMember(IDUser, CodeClass, "Teacher", true);
+      const Name = res.locals.data._doc.Name;
+      const Image = res.locals.data._doc.Image;
+      const MSSV = res.locals.data._doc.MSSV;
+      await memberServices.addMember(
+        IDUser,
+        CodeClass,
+        "Teacher",
+        true,
+        Name,
+        Image,
+        MSSV
+      );
       const { data, message, status } = await classServices.getClassByCodeClass(
         CodeClass
       );
@@ -68,6 +79,7 @@ class ClassController {
     }
     res.status(status).send({ data, message });
   };
+
   getClassByCodeClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const CodeClass: string = String(req.query.codeclass);
@@ -83,6 +95,7 @@ class ClassController {
       }
     }
   );
+
   inviteClassroom = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const email: string = String(req.query.email);
@@ -120,6 +133,7 @@ class ClassController {
       });
     }
   );
+
   isOwnerClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const CodeClass: string = String(req.query.codeclass);
@@ -132,11 +146,10 @@ class ClassController {
     }
   );
   getListClass = async (req: Request, res: Response): Promise<void> => {
-    const { data, message, status } =
-      await classServices.getListClass();
+    const { data, message, status } = await classServices.getListClass();
     res.status(status).send({ data, message });
-
   };
+
   updateClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const body = req.body;
@@ -152,16 +165,16 @@ class ClassController {
       res.status(status).json({ data, message });
     }
   );
+
   deleteClass = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const query = req.query;
       const id = query.id;
-      const { data, message, status } = await classServices.deleteClass(
-        id
-      );
+      const { data, message, status } = await classServices.deleteClass(id);
 
       res.status(status).json({ data, message });
     }
   );
 }
+
 export const classController = new ClassController();
