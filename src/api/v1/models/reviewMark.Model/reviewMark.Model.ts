@@ -9,7 +9,6 @@ interface ReviewMark {
   CommentStudent: string;
   FinalMask?: number;
   Answer?: string;
-  Mark?: number;
   Status: boolean;
 }
 const ReviewMarkSchema = new Schema<ReviewMark>({
@@ -22,7 +21,6 @@ const ReviewMarkSchema = new Schema<ReviewMark>({
   CommentStudent: { type: String, require: true },
   FinalMask: Number,
   Answer: String,
-  Mark: Number,
   Status: { type: Boolean, require: true },
 });
 

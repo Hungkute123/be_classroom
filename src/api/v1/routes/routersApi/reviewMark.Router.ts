@@ -10,6 +10,7 @@ import { authenTokenMiddleware } from "../../middlewares/authenToken.Middleware"
 //-------------------------------------------- api/products/... -------------------------------
 
 //--------------------------------------------GET------------------------------------------
+reviewMarkRouter.get("/get-review", authenTokenMiddleware, reviewMarkController.getReviewMark);
 reviewMarkRouter.get("/get-all-review", authenTokenMiddleware, reviewMarkController.getAllReviewMark);
 
 //--------------------------------------------POST-----------------------------------------
