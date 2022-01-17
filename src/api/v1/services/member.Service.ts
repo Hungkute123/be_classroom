@@ -79,7 +79,7 @@ class MemberServices {
       const classroom = await ClassModel.findOne({
         CodeClass: CodeClass,
       });
-      if(classroom === null){
+      if (classroom === null) {
         return {
           data: "Lớp học không tồn tại",
           message: "Lớp học không tồn tại",
