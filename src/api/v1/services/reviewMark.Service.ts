@@ -49,6 +49,27 @@ class ReviewMarkServices {
       throw new Error(error.messages);
     }
   };
+
+  updateReviewMark = async (
+    MSSV: string,
+    codeClass: string,
+    reviewMark: any
+  ) => {
+    try {
+      const status = await ReviewMarkModel.findOneAndUpdate(
+        { MSSV: MSSV, CodeClass: codeClass },
+        { $set: { ...reviewMark } }
+      );
+
+      return {
+        data: status != null ? true : false,
+        message: "Added successful review mark",
+        status: 200,
+      };
+    } catch (error: any) {
+      throw new Error(error.messages);
+    }
+  };
 }
 
 export const reviewMarkServices = new ReviewMarkServices();
