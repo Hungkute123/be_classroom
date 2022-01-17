@@ -21,6 +21,12 @@ const app: Express = express();
 import { connectDB } from './start/connectDB';
 connectDB();
 
+// start socket.io
+import { startSocketIO } from './start/socketIO';
+import { createServer } from "http";
+const server = createServer(app);
+startSocketIO(server);
+
 // set view engine
 import { setViewEngine } from './start/ejsConfig';
 setViewEngine(app);
@@ -38,6 +44,6 @@ app.use(unexpectedError);
 
 // listen on port: default port = 5000
 const PORT: any = process.env.PORT || 5000;
-app.listen(PORT, (): void => {
+server.listen(PORT, (): void => {
 	console.log(`http://localhost:${PORT}`);
 });
