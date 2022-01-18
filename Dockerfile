@@ -16,4 +16,4 @@ RUN rm -r src
 
 EXPOSE 9000
 
-CMD ["npm", "start-production"]
+CMD ["npm", "start"]
