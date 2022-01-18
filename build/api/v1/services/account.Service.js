@@ -197,6 +197,90 @@ var AccountServices = /** @class */ (function () {
                 }
             });
         }); };
+        this.getListAccountsWithPermission = function (Permission) { return __awaiter(_this, void 0, void 0, function () {
+            var list, error_7;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, models_1.AccountModel.find({ Permission: Permission }, { Password: 0, __v: 0 })];
+                    case 1:
+                        list = _a.sent();
+                        if (list.length === 0) {
+                            return [2 /*return*/, {
+                                    data: null,
+                                    message: "Not available",
+                                    status: 400,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                data: list,
+                                message: "Success",
+                                status: 200,
+                            }];
+                    case 2:
+                        error_7 = _a.sent();
+                        throw new Error(error_7.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
+        this.deleteAccount = function (id) { return __awaiter(_this, void 0, void 0, function () {
+            var del, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, models_1.AccountModel.deleteOne({ _id: id })];
+                    case 1:
+                        del = _a.sent();
+                        if (del) {
+                            return [2 /*return*/, {
+                                    data: true,
+                                    message: "Account delete successfully",
+                                    status: 200,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                data: false,
+                                message: "Delete failed",
+                                status: 200,
+                            }];
+                    case 2:
+                        error_8 = _a.sent();
+                        throw new Error(error_8.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
+        this.forgotPassword = function (email, password) { return __awaiter(_this, void 0, void 0, function () {
+            var update, error_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, models_1.AccountModel.findOneAndUpdate({ Email: email }, { $set: { Password: password } })];
+                    case 1:
+                        update = _a.sent();
+                        if (update) {
+                            return [2 /*return*/, {
+                                    data: true,
+                                    message: "Successfully updated new password",
+                                    status: 200,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                data: false,
+                                message: "New password update failed",
+                                status: 200,
+                            }];
+                    case 2:
+                        error_9 = _a.sent();
+                        throw new Error(error_9.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
     }
     return AccountServices;
 }());

@@ -15,3 +15,5 @@ __exportStar(require("./class.Controller"), exports);
 __exportStar(require("./member.Controller"), exports);
 __exportStar(require("./classStructure.Controller"), exports);
 __exportStar(require("./mark.Controller"), exports);
+__exportStar(require("./reviewMark.Controller"), exports);
+__exportStar(require("./notification.Controller"), exports);

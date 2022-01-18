@@ -10,5 +10,6 @@ var ClassSchema = new mongoose_1.Schema({
     Part: String,
     Image: { type: String, require: true },
     Room: String,
+    Status: Boolean,
 });
 exports.ClassModel = mongoose_1.model('class', ClassSchema);

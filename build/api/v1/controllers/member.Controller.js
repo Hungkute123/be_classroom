@@ -98,18 +98,22 @@ var MemberController = /** @class */ (function () {
             });
         }); });
         this.joinClassroom = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var CodeClass, Permission, IDUser, _a, data, message, status, _b, data_2, message_2, status_2;
+            var CodeClass, Permission, IDUser, Name, Image, MSSV, _a, data, message, status, _b, data_2, message_2, status_2;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         CodeClass = String(req.query.codeclass);
                         Permission = String(req.query.permission);
                         IDUser = res.locals.data._doc._id;
+                        Name = res.locals.data._doc.Name;
+                        Image = res.locals.data._doc.Image;
+                        MSSV = res.locals.data._doc.MSSV;
                         return [4 /*yield*/, member_Service_1.memberServices.checkMemberValidClassroom(IDUser, CodeClass)];
                     case 1:
                         _a = _c.sent(), data = _a.data, message = _a.message, status = _a.status;
-                        if (!(status !== 200)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, Permission, true)];
+                        console.log(message);
+                        if (!(status === 400)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, Permission, true, Name, Image, MSSV)];
                     case 2:
                         _b = _c.sent(), data_2 = _b.data, message_2 = _b.message, status_2 = _b.status;
                         res.status(status_2).send({ data: data_2, message: message_2 });
@@ -137,18 +141,21 @@ var MemberController = /** @class */ (function () {
             });
         }); });
         this.joinClassroomByCodeClass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var CodeClass, Permission, IDUser, _a, data, message, status, _b, data_3, message_3, status_3;
+            var CodeClass, Permission, IDUser, Name, Image, MSSV, _a, data, message, status, _b, data_3, message_3, status_3;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         CodeClass = String(req.query.codeclass);
                         Permission = "Student";
                         IDUser = res.locals.data._doc._id;
+                        Name = res.locals.data._doc.Name;
+                        Image = res.locals.data._doc.Image;
+                        MSSV = res.locals.data._doc.MSSV;
                         return [4 /*yield*/, member_Service_1.memberServices.checkMemberValidClassroom(IDUser, CodeClass)];
                     case 1:
                         _a = _c.sent(), data = _a.data, message = _a.message, status = _a.status;
                         if (!(status !== 200)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, Permission, true)];
+                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, Permission, true, Name, Image, MSSV)];
                     case 2:
                         _b = _c.sent(), data_3 = _b.data, message_3 = _b.message, status_3 = _b.status;
                         res.status(status_3).send({ data: data_3, message: message_3 });

@@ -54,6 +54,8 @@ exports.accountController = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var axios_1 = __importDefault(require("axios"));
+var crypto_random_string_1 = __importDefault(require("crypto-random-string"));
+var nodemailer_1 = __importDefault(require("nodemailer"));
 // dotenv
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -123,7 +125,7 @@ var AccountController = /** @class */ (function () {
                                     Introduce: "",
                                     Birth: "",
                                     Gender: "",
-                                    Permission: 0,
+                                    Permission: "User",
                                     CodeClass: "",
                                     Status: false,
                                 };
@@ -170,10 +172,11 @@ var AccountController = /** @class */ (function () {
                             Introduce: "",
                             Birth: "",
                             Gender: "",
-                            Permission: 0,
+                            Permission: "User",
                             CodeClass: "",
-                            Status: false,
+                            Status: true,
                             Image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhvWpQrh3nIxmjLBQSyH5uu7OKpprR2b4-g&usqp=CAU",
+                            CreateDate: Date(),
                         };
                         return [4 /*yield*/, account_Service_1.accountServices.register(account, email)];
                     case 1:
@@ -227,7 +230,6 @@ var AccountController = /** @class */ (function () {
                     case 1:
                         passOld = _b.sent();
                         ret = bcrypt_1.default.compareSync(password, passOld);
-                        console.log(password, passOld);
                         if (!ret) return [3 /*break*/, 3];
                         account = {
                             Email: email,
@@ -262,6 +264,159 @@ var AccountController = /** @class */ (function () {
                         return [4 /*yield*/, account_Service_1.accountServices.updateAccount({ MSSV: mssv }, { Email: email })];
                     case 2:
                         _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.adminLogin = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, email, pass, password, ret, data, accessToken;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body = req.body;
+                        email = String(body.Email);
+                        pass = String(body.Password);
+                        return [4 /*yield*/, account_Service_1.accountServices.getPasswordByEmail(email)];
+                    case 1:
+                        password = _a.sent();
+                        if (!password) return [3 /*break*/, 3];
+                        ret = bcrypt_1.default.compareSync(pass, password);
+                        if (!ret) return [3 /*break*/, 3];
+                        return [4 /*yield*/, account_Service_1.accountServices.getAccount({ Email: email }, { Password: 0, __v: 0 })];
+                    case 2:
+                        data = _a.sent();
+                        if (data && data.Permission === "Admin") {
+                            accessToken = jsonwebtoken_1.default.sign(__assign({}, data), process.env.ACCESS_TOKEN_SECRET, {
+                                expiresIn: process.env.TIMERESET,
+                            });
+                            res.status(200).json({ data: accessToken, message: "Login success" });
+                            return [2 /*return*/];
+                        }
+                        _a.label = 3;
+                    case 3:
+                        res.status(200).json({ data: false, message: "Login failed" });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.adminRegister = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, email, pass, fullName, passCover, account, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        email = String(body.email);
+                        pass = String(body.password);
+                        fullName = String(body.full_name);
+                        passCover = bcrypt_1.default.hashSync(pass, Number(process.env.ROUNDS));
+                        account = {
+                            Email: email,
+                            Password: passCover,
+                            Name: fullName,
+                            Phone: "",
+                            Year: "",
+                            Introduce: "",
+                            Birth: "",
+                            Gender: "",
+                            Permission: "Admin",
+                            Status: true,
+                            Image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJhvWpQrh3nIxmjLBQSyH5uu7OKpprR2b4-g&usqp=CAU",
+                            CreateDate: Date(),
+                        };
+                        return [4 /*yield*/, account_Service_1.accountServices.register(account, email)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.getListUserAccounts = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, account_Service_1.accountServices.getListAccountsWithPermission('User')];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.getListAdminAccounts = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, account_Service_1.accountServices.getListAccountsWithPermission('Admin')];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.deleteAccount = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var query, id, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        query = req.query;
+                        id = query.id;
+                        return [4 /*yield*/, account_Service_1.accountServices.deleteAccount(id)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.forgotPassword = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var email, password, passwordEncode, _a, data, message, status, transporter, mailOptions;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        email = req.body.email;
+                        password = crypto_random_string_1.default({ length: 8, type: "base64" });
+                        passwordEncode = bcrypt_1.default.hashSync(password, Number(process.env.ROUNDS));
+                        return [4 /*yield*/, account_Service_1.accountServices.forgotPassword(email, passwordEncode)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        if (data) {
+                            transporter = nodemailer_1.default.createTransport({
+                                host: "smtp.gmail.com",
+                                auth: {
+                                    user: process.env.MAIL,
+                                    pass: process.env.PASS, // generated ethereal password
+                                },
+                            });
+                            mailOptions = {
+                                from: "Classroom",
+                                to: email,
+                                subject: "Hệ thống ClassRoom - Mật khẩu mới của tài khoản",
+                                text: "Chào mừng bạn đến với Classroom",
+                                html: "Mật khẩu mới của bạn là <b>" +
+                                    password +
+                                    "</b> <br> Hãy đổi mật khẩu ngay nhé !!!",
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                return __awaiter(this, void 0, void 0, function () {
+                                    return __generator(this, function (_a) {
+                                        if (error) {
+                                            console.log(error);
+                                            res
+                                                .status(400)
+                                                .json({ data: false, message: "can not send email" });
+                                        }
+                                        else {
+                                            res.status(status).json({ data: data, message: message });
+                                        }
+                                        return [2 /*return*/];
+                                    });
+                                });
+                            });
+                            return [2 /*return*/];
+                        }
                         res.status(status).json({ data: data, message: message });
                         return [2 /*return*/];
                 }

@@ -55,7 +55,7 @@ var connectDB = function () {
                     })];
                 case 1:
                     _a.sent();
-                    console.log("Connected to success");
+                    console.log("Connected to success database");
                     return [2 /*return*/];
             }
         });

@@ -37,16 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.memberServices = void 0;
+var models_1 = require("../models");
 var member_Model_1 = require("../models/member.Model/member.Model");
 var MemberServices = /** @class */ (function () {
     function MemberServices() {
         var _this = this;
-        this.addMember = function (IDUser, CodeClass, Permission, Status) { return __awaiter(_this, void 0, void 0, function () {
-            var addMember, saveMember, error_1;
+        this.addMember = function (IDUser, CodeClass, Permission, Status, Name, Image, MSSV) { return __awaiter(_this, void 0, void 0, function () {
+            var addMember, saveMember, mark, addMark, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 5, , 6]);
                         addMember = new member_Model_1.MemberModel({
                             IDUser: IDUser,
                             CodeClass: CodeClass,
@@ -56,15 +57,34 @@ var MemberServices = /** @class */ (function () {
                         return [4 /*yield*/, addMember.save()];
                     case 1:
                         saveMember = _a.sent();
-                        return [2 /*return*/, {
-                                data: saveMember,
-                                message: "Add member susscess",
-                                status: 200,
-                            }];
+                        return [4 /*yield*/, models_1.MarkModel.findOne({
+                                Name: Name,
+                                MSSV: MSSV,
+                                CodeClass: CodeClass,
+                            })];
                     case 2:
+                        mark = _a.sent();
+                        if (!!mark) return [3 /*break*/, 4];
+                        addMark = new models_1.MarkModel({
+                            Name: Name,
+                            MSSV: MSSV,
+                            CodeClass: CodeClass,
+                            IDUser: IDUser,
+                            Image: Image,
+                        });
+                        return [4 /*yield*/, addMark.save()];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/, {
+                            data: saveMember,
+                            message: "Tham gia lớp học thành công",
+                            status: 200,
+                        }];
+                    case 5:
                         error_1 = _a.sent();
                         throw new Error(error_1.messages);
-                    case 3: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         }); };
@@ -131,33 +151,45 @@ var MemberServices = /** @class */ (function () {
             });
         }); };
         this.checkMemberValidClassroom = function (IDUser, CodeClass) { return __awaiter(_this, void 0, void 0, function () {
-            var members, error_4;
+            var members, classroom, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 3, , 4]);
                         return [4 /*yield*/, member_Model_1.MemberModel.findOne({
                                 IDUser: IDUser,
                                 CodeClass: CodeClass,
                             })];
                     case 1:
                         members = _a.sent();
-                        if (members === null) {
+                        return [4 /*yield*/, models_1.ClassModel.findOne({
+                                CodeClass: CodeClass,
+                            })];
+                    case 2:
+                        classroom = _a.sent();
+                        if (classroom === null) {
                             return [2 /*return*/, {
-                                    data: null,
-                                    message: "can not find student",
+                                    data: "Lớp học không tồn tại",
+                                    message: "Lớp học không tồn tại",
+                                    status: 401,
+                                }];
+                        }
+                        if (members === null && classroom != null) {
+                            return [2 /*return*/, {
+                                    data: "Bạn chưa tham gia lớp học",
+                                    message: "Bạn chưa tham gia lớp học",
                                     status: 400,
                                 }];
                         }
                         return [2 /*return*/, {
                                 data: members,
-                                message: "Success",
+                                message: "Bạn đã tham gia lớp học",
                                 status: 200,
                             }];
-                    case 2:
+                    case 3:
                         error_4 = _a.sent();
                         throw new Error(error_4.messages);
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         }); };
