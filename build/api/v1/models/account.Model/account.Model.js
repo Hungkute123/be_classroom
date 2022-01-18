@@ -12,9 +12,10 @@ var AccountSchema = new mongoose_1.Schema({
     Introduce: String,
     Birth: String,
     Gender: String,
-    Permission: Number,
+    Permission: String,
     CodeClass: String,
     Status: Boolean,
     Image: String,
+    CreateDate: String,
 });
 exports.AccountModel = mongoose_1.model("users", AccountSchema);

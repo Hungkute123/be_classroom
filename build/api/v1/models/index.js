@@ -15,3 +15,5 @@ __exportStar(require("./class.Model/class.Model"), exports);
 __exportStar(require("./classStructure.Model/classStructure.Model"), exports);
 __exportStar(require("./member.Model/member.Model"), exports);
 __exportStar(require("./mark.Model/mark.Model"), exports);
+__exportStar(require("./reviewMark.Model/reviewMark.Model"), exports);
+__exportStar(require("./notification.Model/notification.Model"), exports);

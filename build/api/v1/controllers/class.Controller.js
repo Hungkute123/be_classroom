@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -78,7 +89,7 @@ var ClassController = /** @class */ (function () {
             });
         }); };
         this.createClass = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var IDUser, CodeClass, _a, data_1, message_2, status_2, Title, Theme, Part, Image, Room, _b, data, message, status, _c, data_2, message_3, status_3;
+            var IDUser, CodeClass, _a, data_1, message_2, status_2, Title, Theme, Part, Image, Room, _b, data, message, status, Name, Image_1, MSSV, _c, data_2, message_3, status_3;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -104,7 +115,10 @@ var ClassController = /** @class */ (function () {
                     case 4:
                         _b = _d.sent(), data = _b.data, message = _b.message, status = _b.status;
                         if (!(data !== null)) return [3 /*break*/, 7];
-                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, "Teacher", true)];
+                        Name = res.locals.data._doc.Name;
+                        Image_1 = res.locals.data._doc.Image;
+                        MSSV = res.locals.data._doc.MSSV;
+                        return [4 /*yield*/, member_Service_1.memberServices.addMember(IDUser, CodeClass, "Teacher", true, Name, Image_1, MSSV)];
                     case 5:
                         _d.sent();
                         return [4 /*yield*/, class_Service_1.classServices.getClassByCodeClass(CodeClass)];
@@ -146,7 +160,6 @@ var ClassController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 email = String(req.query.email);
                 path = String(req.query.path);
-                console.log("haha", req.query);
                 transporter = nodemailer_1.default.createTransport({
                     host: "smtp.gmail.com",
                     auth: {
@@ -193,6 +206,50 @@ var ClassController = /** @class */ (function () {
                     case 1:
                         _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
                         res.status(status).send({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.getListClass = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, class_Service_1.classServices.getListClass()];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).send({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.updateClass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, key, classroom, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        key = __assign({}, body.key);
+                        classroom = __assign({}, body.classroom);
+                        console.log(key, classroom);
+                        return [4 /*yield*/, class_Service_1.classServices.updateClass(classroom, key)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.deleteClass = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var query, id, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        query = req.query;
+                        id = query.id;
+                        return [4 /*yield*/, class_Service_1.classServices.deleteClass(id)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
                         return [2 /*return*/];
                 }
             });

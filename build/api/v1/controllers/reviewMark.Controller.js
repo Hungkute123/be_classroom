@@ -36,61 +36,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.markController = void 0;
+exports.reviewMarkController = void 0;
 // Interfaces
 // Middlewares
 var async_Middleware_1 = require("../middlewares/async.Middleware");
 // services
 var services_1 = require("../services");
-var MarkController = /** @class */ (function () {
-    function MarkController() {
+var ReviewMarkController = /** @class */ (function () {
+    function ReviewMarkController() {
         var _this = this;
-        this.addListStudent = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var body, listStudent, codeClass, _a, data, message, status;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        body = req.body;
-                        listStudent = body.ListStudent;
-                        codeClass = body.CodeClass;
-                        return [4 /*yield*/, services_1.markServices.addListStudent(listStudent, codeClass)];
-                    case 1:
-                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
-                        res.status(status).json({ data: data, message: message });
-                        return [2 /*return*/];
-                }
-            });
-        }); });
-        this.addMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var body, listMark, codeClass, structure, listMSSV, i, _a, data, message, status;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        body = req.body;
-                        listMark = body.ListMark;
-                        codeClass = body.CodeClass;
-                        structure = body.KeyStructure;
-                        listMSSV = [];
-                        for (i = 0; i < listMark.length; i++) {
-                            listMSSV.push(listMark[i]["MSSV"]);
-                            delete listMark[i]["MSSV"];
-                        }
-                        return [4 /*yield*/, services_1.markServices.addMark(listMark, structure, listMSSV, codeClass)];
-                    case 1:
-                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
-                        res.status(status).json({ data: data, message: message });
-                        return [2 /*return*/];
-                }
-            });
-        }); });
-        this.getAllMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+        this.getAllReviewMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
             var query, codeClass, _a, data, message, status;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         query = req.query;
                         codeClass = String(query.CodeClass);
-                        return [4 /*yield*/, services_1.markServices.getAllMark(codeClass)];
+                        return [4 /*yield*/, services_1.reviewMarkServices.getAllReviewMark(codeClass)];
                     case 1:
                         _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
                         res.status(status).json({ data: data, message: message });
@@ -98,7 +60,7 @@ var MarkController = /** @class */ (function () {
                 }
             });
         }); });
-        this.getMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+        this.getReviewMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
             var query, codeClass, MSSV, _a, data, message, status;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -106,7 +68,7 @@ var MarkController = /** @class */ (function () {
                         query = req.query;
                         codeClass = String(query.CodeClass);
                         MSSV = String(query.MSSV);
-                        return [4 /*yield*/, services_1.markServices.getMark(codeClass, MSSV)];
+                        return [4 /*yield*/, services_1.reviewMarkServices.getReviewMark(codeClass, MSSV)];
                     case 1:
                         _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
                         res.status(status).json({ data: data, message: message });
@@ -114,21 +76,39 @@ var MarkController = /** @class */ (function () {
                 }
             });
         }); });
-        this.updateMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, codeClass, MSSV, Point, MarkType, _b, data, message, status;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+        this.addReviewMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, reviewMark, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a = req.body, codeClass = _a.codeClass, MSSV = _a.MSSV, Point = _a.Point, MarkType = _a.MarkType;
-                        return [4 /*yield*/, services_1.markServices.updateMark(codeClass, MSSV, Point, MarkType)];
+                        body = req.body;
+                        reviewMark = body.reviewMark;
+                        return [4 /*yield*/, services_1.reviewMarkServices.addReviewMark(reviewMark)];
                     case 1:
-                        _b = _c.sent(), data = _b.data, message = _b.message, status = _b.status;
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
+                        res.status(status).json({ data: data, message: message });
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.updateReviewMark = async_Middleware_1.asyncMiddleware(function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var body, codeClass, MSSV, reviewMark, _a, data, message, status;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        body = req.body;
+                        codeClass = body.CodeClass;
+                        MSSV = body.MSSV;
+                        reviewMark = body.reviewMark;
+                        return [4 /*yield*/, services_1.reviewMarkServices.updateReviewMark(MSSV, codeClass, reviewMark)];
+                    case 1:
+                        _a = _b.sent(), data = _a.data, message = _a.message, status = _a.status;
                         res.status(status).json({ data: data, message: message });
                         return [2 /*return*/];
                 }
             });
         }); });
     }
-    return MarkController;
+    return ReviewMarkController;
 }());
-exports.markController = new MarkController();
+exports.reviewMarkController = new ReviewMarkController();

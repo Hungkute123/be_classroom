@@ -15,3 +15,4 @@ __exportStar(require("./class.Service"), exports);
 __exportStar(require("./classStructure.Service"), exports);
 __exportStar(require("./member.Service"), exports);
 __exportStar(require("./mark.Service"), exports);
+__exportStar(require("./reviewMark.Service"), exports);

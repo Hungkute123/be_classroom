@@ -10,10 +10,17 @@ var helmet_1 = __importDefault(require("helmet"));
 var hpp_1 = __importDefault(require("hpp"));
 var express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 var morgan_1 = __importDefault(require("morgan"));
+var passport_Middleware_1 = __importDefault(require("./passport.Middleware"));
 function startMiddleware(app) {
     // passportMiddleware(); // use passportjs
     app.use(morgan_1.default('combined')); // check api
-    app.use(cors_1.default()); // open for all cors
+    var corsOptions = {
+        origin: process.env.URL_MY_FRONTEND,
+        credentials: true,
+        optionSuccessStatus: 200
+    };
+    app.use(cors_1.default(corsOptions));
+    app.use(passport_Middleware_1.default.initialize());
     app.use(helmet_1.default()); // secure http headers
     // get the last value if have the same key
     app.use(hpp_1.default()); // api/user/?a=1&a=2 => req.query.a = ['1', '2']. If we have hpp => req.query.a = '2'

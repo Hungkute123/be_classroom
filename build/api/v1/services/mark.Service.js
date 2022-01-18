@@ -164,6 +164,63 @@ var MarkServices = /** @class */ (function () {
                 }
             });
         }); };
+        this.getMark = function (codeClass, MSSV) { return __awaiter(_this, void 0, void 0, function () {
+            var mark, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, models_1.MarkModel.findOne({ CodeClass: codeClass, MSSV: MSSV }, { _id: 0, _v: 0 })];
+                    case 1:
+                        mark = _a.sent();
+                        return [2 /*return*/, {
+                                data: mark,
+                                message: "Info Mark",
+                                status: 200,
+                            }];
+                    case 2:
+                        error_4 = _a.sent();
+                        throw new Error(error_4.messages);
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); };
+        this.updateMark = function (codeClass, MSSV, Point, MarkType) { return __awaiter(_this, void 0, void 0, function () {
+            var mark, point, updateMark, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, models_1.MarkModel.findOne({
+                                MSSV: MSSV,
+                                CodeClass: codeClass,
+                            })];
+                    case 1:
+                        mark = _a.sent();
+                        point = mark.Point || {};
+                        point[MarkType] = Point;
+                        return [4 /*yield*/, models_1.MarkModel.findOneAndUpdate({ CodeClass: codeClass, MSSV: MSSV }, { $set: { Point: point } })];
+                    case 2:
+                        updateMark = _a.sent();
+                        if (updateMark) {
+                            return [2 /*return*/, {
+                                    data: true,
+                                    message: "Update success",
+                                    status: 200,
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                data: false,
+                                message: "Update failed",
+                                status: 200,
+                            }];
+                    case 3:
+                        error_5 = _a.sent();
+                        throw new Error(error_5.messages);
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); };
     }
     return MarkServices;
 }());
