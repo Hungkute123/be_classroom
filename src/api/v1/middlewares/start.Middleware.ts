@@ -4,16 +4,20 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
-// import { passportMiddleware } from './passport.Middleware';
-import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import config from 'config';
-
+import passport from './passport.Middleware';
 export function startMiddleware (app: Express): void {
 	// passportMiddleware(); // use passportjs
 	app.use(morgan('combined')); // check api
-	app.use(cors()); // open for all cors
+	const corsOptions ={
+		origin: process.env.URL_MY_FRONTEND, 
+		credentials:true,            //access-control-allow-credentials:true
+		optionSuccessStatus:200
+	}
+	app.use(cors(corsOptions));
+	app.use(passport.initialize());
 	app.use(helmet()); // secure http headers
 
 	// get the last value if have the same key

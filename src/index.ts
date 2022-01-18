@@ -34,11 +34,13 @@ setViewEngine(app);
 // handle Middleware => cors, helmet,...
 import { startMiddleware } from './api/v1/middlewares/start.Middleware';
 startMiddleware(app);
-
+//passport middleware
+//import passport from './api/v1/middlewares/passport.Middleware';
+// app.use(passport.initialize());
 //  router api
 import { routersApi } from './api/v1/routes/start.Route';
 routersApi(app);
-
+//handle Middleware error
 import { unexpectedError } from './api/v1/middlewares/unexpectedError.Middleware';
 app.use(unexpectedError);
 

@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import passport from "passport";
 const accountRouter = Router();
 
 // Middleware
@@ -10,6 +11,12 @@ import { authenTokenMiddleware } from "../../middlewares/authenToken.Middleware"
 //-------------------------------------------- api/products/... -------------------------------
 
 //--------------------------------------------GET------------------------------------------
+accountRouter.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+accountRouter.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: process.env.URL_MY_FRONTEND, session: true }),
+  function (req, res) {
+    res.redirect(`${process.env.URL_MY_FRONTEND}`);
+  });
 accountRouter.get('/get-info', authenTokenMiddleware, accountController.getInfo);
 accountRouter.get('/get-list-user-accounts', accountController.getListUserAccounts);
 accountRouter.get('/get-list-admin-accounts', accountController.getListAdminAccounts);
