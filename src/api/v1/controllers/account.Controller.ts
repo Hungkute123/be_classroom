@@ -79,7 +79,7 @@ class AccountController {
               Introduce: "",
               Birth: "",
               Gender: "",
-              Permission: 0,
+              Permission: "User",
               CodeClass: "",
               Status: false,
             };
