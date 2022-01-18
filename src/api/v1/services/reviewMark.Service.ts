@@ -53,11 +53,22 @@ class ReviewMarkServices {
   updateReviewMark = async (
     MSSV: string,
     codeClass: string,
-    reviewMark: any
+    typeMark: string,
+    reviewMark: any,
+    currentMark: number,
+    desiredMark: number,
+    commentStudent: string
   ) => {
     try {
       const status = await ReviewMarkModel.findOneAndUpdate(
-        { MSSV: MSSV, CodeClass: codeClass },
+        {
+          MSSV: MSSV,
+          CodeClass: codeClass,
+          TypeMark: typeMark,
+          CurrentMark: currentMark,
+          DesiredMark: desiredMark,
+          CommentStudent: commentStudent,
+        },
         { $set: { ...reviewMark } }
       );
 
