@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 # Working in root app
 WORKDIR /usr/src/app
-COPY package.json package-lock.json tsconfig.json jest.config.js server.http ./
+COPY package.json package-lock.json tsconfig.json server.http ./
 COPY src src
 RUN npm config set unsafe-perm true
 RUN npm install
@@ -16,4 +16,4 @@ RUN rm -r src
 
 EXPOSE 9000
 
-CMD ["npm", "start"]
+CMD ["npm", "start-production"]
