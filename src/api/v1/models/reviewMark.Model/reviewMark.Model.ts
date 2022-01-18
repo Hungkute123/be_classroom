@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 interface ReviewMark {
+  IDUser: string;
   Name: string;
   MSSV: string;
   TypeMark: string;
@@ -12,6 +13,7 @@ interface ReviewMark {
   Status: boolean;
 }
 const ReviewMarkSchema = new Schema<ReviewMark>({
+  IDUser: { type: String, require: true },
   Name: { type: String, require: true },
   MSSV: { type: String, require: true },
   TypeMark: { type: String, require: true },
