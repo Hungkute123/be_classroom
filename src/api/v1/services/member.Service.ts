@@ -7,9 +7,9 @@ class MemberServices {
     CodeClass: string,
     Permission: string,
     Status: boolean,
-    Name: string,
-    Image: string,
-    MSSV: string
+    Name?: string,
+    Image?: string,
+    MSSV?: string
   ) => {
     try {
       const addMember = new MemberModel({
@@ -20,22 +20,24 @@ class MemberServices {
       });
       const saveMember = await addMember.save();
 
-      const mark = await MarkModel.findOne({
-        Name: Name,
-        MSSV: MSSV,
-        CodeClass: CodeClass,
-      });
-
-      if (!mark) {
-        const addMark = new MarkModel({
+      if (Permission === "Student") {
+        const mark = await MarkModel.findOne({
           Name: Name,
           MSSV: MSSV,
           CodeClass: CodeClass,
-          IDUser: IDUser,
-          Image: Image,
         });
 
-        await addMark.save();
+        if (!mark) {
+          const addMark = new MarkModel({
+            Name: Name,
+            MSSV: MSSV,
+            CodeClass: CodeClass,
+            IDUser: IDUser,
+            Image: Image,
+          });
+
+          await addMark.save();
+        }
       }
 
       return {
