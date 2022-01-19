@@ -50,6 +50,7 @@ class ClassController {
     const Image: string =
       "https://www.gstatic.com/classroom/themes/img_backtoschool.jpg";
     const Room: string = req.body.Room || "";
+    const Status: boolean = true;
     const { data, message, status } = await classServices.createClass(
       IDUser,
       CodeClass,
@@ -57,7 +58,8 @@ class ClassController {
       Theme,
       Part,
       Image,
-      Room
+      Room,
+      Status
     );
     if (data !== null) {
       const Name = res.locals.data._doc.Name;

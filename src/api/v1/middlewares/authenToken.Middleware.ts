@@ -43,8 +43,7 @@ export function authenticateAdminMiddleware(
   next: NextFunction
 ): void {
   try {
-    const token = req.headers.authorization;
-
+    const token = req.query.jwt || req.body.jwt || req.headers.authorization;
     if (!token || typeof token == undefined) {
       res.status(200).json({ data: false, message: "JWT wrong" });
       return;
@@ -58,12 +57,9 @@ export function authenticateAdminMiddleware(
           res.status(200).json({ data: false, message: "JWT wrong" });
           return;
         }
-
-        res.locals.email = data.Email;
-        res.locals.idUser = data.IDUser;
         res.locals.data = data;
 
-        if (data.Permission === "Admin") {
+        if (data._doc.Permission === "Admin") {
           next();
         } else {
           res.status(200).json({ data: false, message: "JWT wrong" });

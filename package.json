@@ -36,6 +36,7 @@
     "@types/passport-local": "^1.0.34",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "cloudinary": "^1.28.1",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
