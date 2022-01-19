@@ -28,7 +28,8 @@ class ClassServices {
     Theme: string,
     Part: string,
     Image: string,
-    Room: string
+    Room: string,
+    Status: boolean
   ) => {
     try {
       const createClass = new ClassModel({
@@ -39,6 +40,7 @@ class ClassServices {
         Part: Part,
         Image: Image,
         Room: Room,
+        Status: Status
       });
       const saveClass = await createClass.save();
       return {

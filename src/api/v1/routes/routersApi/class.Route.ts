@@ -5,7 +5,7 @@ const classRouter = Router();
 
 // Controller
 import { classController } from '../../controllers/class.Controller';
-import { authenTokenMiddleware } from '../../middlewares/authenToken.Middleware';
+import { authenticateAdminMiddleware, authenTokenMiddleware } from '../../middlewares/authenToken.Middleware';
 
 
 //-------------------------------------------- api/products/... -------------------------------
@@ -15,7 +15,7 @@ classRouter.get('/',authenTokenMiddleware, classController.getClassByIDUser);
 classRouter.get('/codeclass',authenTokenMiddleware, classController.getClassByCodeClass);
 classRouter.get('/invite',authenTokenMiddleware, classController.inviteClassroom);
 classRouter.get("/owner",authenTokenMiddleware, classController.isOwnerClass);
-classRouter.get('/list-class', classController.getListClass);
+classRouter.get('/list-class',authenticateAdminMiddleware, classController.getListClass);
 //--------------------------------------------POST-----------------------------------------
 classRouter.post('/',authenTokenMiddleware, classController.createClass);
 //--------------------------------------------PATCH------------------------------------------

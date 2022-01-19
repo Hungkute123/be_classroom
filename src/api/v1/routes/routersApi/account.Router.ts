@@ -6,7 +6,7 @@ const accountRouter = Router();
 
 // Controller
 import { accountController } from "../../controllers";
-import { authenTokenMiddleware } from "../../middlewares/authenToken.Middleware";
+import { authenticateAdminMiddleware, authenTokenMiddleware } from "../../middlewares/authenToken.Middleware";
 
 //-------------------------------------------- api/products/... -------------------------------
 
@@ -18,8 +18,8 @@ accountRouter.get('/auth/google/callback',
     res.redirect(`${process.env.URL_MY_FRONTEND}`);
   });
 accountRouter.get('/get-info', authenTokenMiddleware, accountController.getInfo);
-accountRouter.get('/get-list-user-accounts', accountController.getListUserAccounts);
-accountRouter.get('/get-list-admin-accounts', accountController.getListAdminAccounts);
+accountRouter.get('/get-list-user-accounts',authenticateAdminMiddleware, accountController.getListUserAccounts);
+accountRouter.get('/get-list-admin-accounts',authenticateAdminMiddleware, accountController.getListAdminAccounts);
 //--------------------------------------------POST-----------------------------------------
 accountRouter.post("/login", accountController.login);
 accountRouter.post('/login-google', accountController.loginWithGoogle);
@@ -36,6 +36,6 @@ accountRouter.patch("/update-account-mssv", authenTokenMiddleware, accountContro
 //--------------------------------------------PUT------------------------------------------
 
 //--------------------------------------------DELETE----------------------------------------
-accountRouter.delete("/delete-account", authenTokenMiddleware, accountController.deleteAccount)
+accountRouter.delete("/delete-account", authenticateAdminMiddleware, accountController.deleteAccount)
 
 export = accountRouter;
