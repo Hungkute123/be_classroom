@@ -56,10 +56,22 @@ class ReviewMarkController {
       const body = req.body;
       const codeClass = body.CodeClass;
       const MSSV = body.MSSV;
+      const typeMark = body.TypeMark;
       const reviewMark = body.reviewMark;
+      const currentMark = body.CurrentMark;
+      const desiredMark = body.DesiredMark;
+      const commentStudent = body.CommentStudent;
 
       const { data, message, status } =
-        await reviewMarkServices.updateReviewMark(MSSV, codeClass, reviewMark);
+        await reviewMarkServices.updateReviewMark(
+          MSSV,
+          codeClass,
+          typeMark,
+          reviewMark,
+          currentMark,
+          desiredMark,
+          commentStudent
+        );
 
       res.status(status).json({ data, message });
     }
