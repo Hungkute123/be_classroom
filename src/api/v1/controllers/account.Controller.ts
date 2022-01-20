@@ -81,7 +81,7 @@ class AccountController {
               Gender: "",
               Permission: "User",
               CodeClass: "",
-              Status: false,
+              Status: true,
             };
             const { data, message, status } = await accountServices.register(
               account,
@@ -208,7 +208,7 @@ class AccountController {
       const body = req.body;
       const email = body.Email;
       const mssv = body.MSSV;
-      
+
       const account = await accountServices.getAccount(
         { MSSV: mssv },
         { _id: 0, Password: 0 }
@@ -227,7 +227,7 @@ class AccountController {
       res.status(status).json({ data, message });
     }
   );
-  
+
   adminLogin = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
       const body = req.body;
@@ -253,7 +253,9 @@ class AccountController {
               }
             );
 
-            res.status(200).json({ data: accessToken, message: "Login success" });
+            res
+              .status(200)
+              .json({ data: accessToken, message: "Login success" });
 
             return;
           }
@@ -297,13 +299,15 @@ class AccountController {
   );
   getListUserAccounts = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const { data, message, status } = await accountServices.getListAccountsWithPermission('User');
+      const { data, message, status } =
+        await accountServices.getListAccountsWithPermission("User");
       res.status(status).json({ data, message });
     }
   );
   getListAdminAccounts = asyncMiddleware(
     async (req: Request, res: Response): Promise<void> => {
-      const { data, message, status } = await accountServices.getListAccountsWithPermission('Admin');
+      const { data, message, status } =
+        await accountServices.getListAccountsWithPermission("Admin");
       res.status(status).json({ data, message });
     }
   );
@@ -311,9 +315,7 @@ class AccountController {
     async (req: Request, res: Response): Promise<void> => {
       const query = req.query;
       const id = query.id;
-      const { data, message, status } = await accountServices.deleteAccount(
-        id
-      );
+      const { data, message, status } = await accountServices.deleteAccount(id);
       res.status(status).json({ data, message });
     }
   );

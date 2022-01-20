@@ -78,6 +78,8 @@ class ClassController {
         CodeClass
       );
       res.status(status).send({ data, message });
+
+      return;
     }
     res.status(status).send({ data, message });
   };
