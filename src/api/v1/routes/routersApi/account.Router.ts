@@ -17,6 +17,7 @@ accountRouter.get('/auth/google/callback',
   function (req, res) {
     res.redirect(`${process.env.URL_MY_FRONTEND}`);
   });
+  
 accountRouter.get('/get-info', authenTokenMiddleware, accountController.getInfo);
 accountRouter.get('/get-list-user-accounts', accountController.getListUserAccounts);
 accountRouter.get('/get-list-admin-accounts', accountController.getListAdminAccounts);

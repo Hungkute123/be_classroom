@@ -6,7 +6,6 @@ class MarkServices {
       for (let i = 0; i < listStudent.length; i++) {
         const idUser = await AccountModel.findOne(
           {
-            Name: listStudent[i].Name,
             MSSV: listStudent[i].MSSV,
           },
           { _id: 1, Image: 1 }
@@ -14,13 +13,13 @@ class MarkServices {
 
         const listStudentNew = {
           ...listStudent[i],
+          Name: listStudent[i].Name,
           IDUser: idUser ? idUser._id : "",
           Image: idUser ? idUser.Image : "",
         };
 
         await MarkModel.updateOne(
           {
-            Name: listStudent[i].Name,
             MSSV: listStudent[i].MSSV,
             CodeClass: codeClass,
           },
@@ -138,7 +137,7 @@ class MarkServices {
 
       let point = mark.Point || {};
       point[MarkType] = Point;
-      
+
       const updateMark = await MarkModel.findOneAndUpdate(
         { CodeClass: codeClass, MSSV: MSSV },
         { $set: { Point: point } }
