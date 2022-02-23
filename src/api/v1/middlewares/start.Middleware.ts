@@ -11,12 +11,13 @@ import passport from './passport.Middleware';
 export function startMiddleware (app: Express): void {
 	// passportMiddleware(); // use passportjs
 	app.use(morgan('combined')); // check api
-	const corsOptions ={
-		origin: process.env.URL_MY_FRONTEND, 
-		credentials:true,            //access-control-allow-credentials:true
-		optionSuccessStatus:200
-	}
-	app.use(cors(corsOptions));
+	// const corsOptions ={
+	// 	origin: process.env.URL_MY_FRONTEND, 
+	// 	credentials:true,            //access-control-allow-credentials:true
+	// 	optionSuccessStatus:200
+	// }
+	// app.use(cors(corsOptions));
+	app.use(cors()); // open for all cors
 	app.use(passport.initialize());
 	app.use(helmet()); // secure http headers
 

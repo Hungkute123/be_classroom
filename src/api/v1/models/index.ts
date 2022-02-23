@@ -5,3 +5,5 @@ export * from "./member.Model/member.Model";
 export * from "./mark.Model/mark.Model";
 export * from "./reviewMark.Model/reviewMark.Model";
 export * from "./notification.Model/notification.Model";
+export * from "./post.Model/post.Model";
+export * from "./comment.Model/comment.Model";

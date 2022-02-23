@@ -124,7 +124,6 @@ class ClassServices {
           }
         }
       ])
-      console.log(classes[0].info[0].Name)
       if (classes.length != 0) {
         return {
           data: classes,
